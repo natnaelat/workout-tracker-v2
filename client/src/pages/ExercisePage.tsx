@@ -52,8 +52,8 @@ const ExercisePage = () => {
     setSearchTerm(e.target.value.toLowerCase());
   };
 
-  const handleRowClick = (name: string) => {
-    navigate(`/log?exercise=${encodeURIComponent(name)}`);
+  const handleRowClick = (exercise: Exercise) => {
+    navigate(`/log?exerciseId=${exercise.id}&exerciseName=${encodeURIComponent(exercise.name)}`);
   };
 
   const filteredExercises = exerciseList.filter((exercise) =>
@@ -101,7 +101,7 @@ const ExercisePage = () => {
           {filteredExercises.map((exercise) => (
             <tr key={exercise.id}>
               <td className="exercise-cell">
-                <span className="exercise-name" onClick={() => handleRowClick(exercise.name)}>
+                <span className="exercise-name" onClick={() => handleRowClick(exercise)}>
                   {exercise.name}
                 </span>
                 <button

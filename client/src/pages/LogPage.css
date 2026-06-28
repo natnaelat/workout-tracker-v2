@@ -251,3 +251,24 @@ tbody tr.no-row-hover:hover {
 .delete-btn {
     margin-right: 0;
 }
+
+.unit-toggle {
+  margin-bottom: 1rem;
+}
+
+.unit-btn {
+  margin-left: 0.5rem;
+  padding: 0.25rem 0.75rem;
+  cursor: pointer;
+}
+
+.unit-btn.active {
+  background-color: #333;
+  color: white;
+}
+
+.date-gap-row td {
+  height: 14px;
+  border: none;
+  padding: 0;
+}

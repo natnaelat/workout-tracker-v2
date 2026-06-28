@@ -1,22 +1,9 @@
-import { useState, useEffect, useRef } from "react";
+import { Fragment, useState, useEffect, useRef } from "react";
 import { useLocation } from "react-router-dom";
 import "./LogPage.css";
+import { fetchSets, createSet, updateSet, deleteSet, type WorkoutSet } from "../api/sets";
 
-interface WorkoutEntry {
-  id: string;
-  weight: string;
-  sets: string;
-  reps: string;
-  date: string;
-}
-
-type FilterKey = "weight" | "sets" | "reps" | "date";
-const FILTER_COLUMNS: { key: FilterKey; label: string }[] = [
-  { key: "weight", label: "Weight (lbs)" },
-  { key: "sets", label: "Sets" },
-  { key: "reps", label: "Reps" },
-  { key: "date", label: "Date" },
-];
+type FilterKey = "weight" | "set_number" | "reps" | "performed_on";
 
 const getTodayStr = () => {
   const d = new Date();
@@ -25,68 +12,62 @@ const getTodayStr = () => {
 
 const LogPage = () => {
   const location = useLocation();
-  const exerciseName = new URLSearchParams(location.search).get("exercise") || "None";
+  const params = new URLSearchParams(location.search);
+  const exerciseId = params.get("exerciseId") || "";
+  const exerciseName = params.get("exerciseName") || "None";
 
-  const [formData, setFormData] = useState({ weight: "", sets: "", reps: "", date: getTodayStr() });
-  // TODO: replace with data fetched from the API for this exercise
-  const [workoutHistory, setWorkoutHistory] = useState<WorkoutEntry[]>([]);
+  const [sets, setSets] = useState<WorkoutSet[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [errorMsg, setErrorMsg] = useState("");
+  const [displayUnit, setDisplayUnit] = useState<"kg" | "lbs">("lbs");
+
+  const [formData, setFormData] = useState({
+    weight: "",
+    unit: "lbs" as "kg" | "lbs",
+    setNumber: "",
+    reps: "",
+    date: getTodayStr(),
+  });
+
   const [editingId, setEditingId] = useState<string | null>(null);
-  const [editForm, setEditForm] = useState({ weight: "", sets: "", reps: "", date: "" });
+  const [editForm, setEditForm] = useState({
+    weight: "",
+    unit: "lbs" as "kg" | "lbs",
+    setNumber: "",
+    reps: "",
+    date: "",
+  });
+
   const [filters, setFilters] = useState<Record<string, string>>({});
   const [availableFilters, setAvailableFilters] = useState<Record<string, string[]>>({
-    weight: [], sets: [], reps: [], date: [],
+    weight: [], set_number: [], reps: [], performed_on: [],
   });
   const [filterOpen, setFilterOpen] = useState<string | null>(null);
   const popoverRef = useRef<HTMLDivElement>(null);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
+  useEffect(() => {
+    if (!exerciseId) {
+      setErrorMsg("No exercise selected");
+      setLoading(false);
+      return;
+    }
+    fetchSets(exerciseId)
+      .then(setSets)
+      .catch(() => setErrorMsg("Failed to load workout history"))
+      .finally(() => setLoading(false));
+  }, [exerciseId]);
 
-  const handleEditClick = (entry: WorkoutEntry) => {
-    setEditingId(entry.id);
-    setEditForm({ weight: entry.weight, sets: entry.sets, reps: entry.reps, date: entry.date });
-  };
-
-  const handleEditChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setEditForm((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handleSaveEdit = () => {
-    if (!editingId) return;
-    // TODO: replace with API call -> PATCH /workouts/:id
-    setWorkoutHistory((prev) => prev.map((w) => (w.id === editingId ? { ...w, ...editForm } : w)));
-    setEditingId(null);
-  };
-
-  const handleCancelEdit = () => setEditingId(null);
-
-  const handleFormSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // TODO: replace with API call -> POST /workouts
-    const newLog: WorkoutEntry = { id: crypto.randomUUID(), ...formData };
-    setWorkoutHistory((prev) => [...prev, newLog]);
-    setFormData({ weight: "", sets: "", reps: "", date: getTodayStr() });
-  };
-
-  const handleDeleteWorkout = (workoutId: string) => {
-    const confirmed = window.confirm("Delete this workout entry?");
-    if (!confirmed) return;
-    // TODO: replace with API call -> DELETE /workouts/:id
-    setWorkoutHistory((prev) => prev.filter((w) => w.id !== workoutId));
-  };
+  const getDisplayWeight = (row: WorkoutSet) =>
+    displayUnit === "kg" ? row.weight_kg : row.weight_lbs;
 
   useEffect(() => {
-    const newAvail: Record<string, string[]> = {};
-    FILTER_COLUMNS.forEach(({ key }) => {
-      newAvail[key] = Array.from(new Set(workoutHistory.map((w) => String(w[key] ?? ""))))
-        .filter(Boolean)
-        .sort((a, b) => a.localeCompare(b));
+    setAvailableFilters({
+      weight: Array.from(new Set(sets.map(getDisplayWeight))).sort((a, b) => Number(a) - Number(b)),
+      set_number: Array.from(new Set(sets.map((s) => String(s.set_number)))).sort((a, b) => Number(a) - Number(b)),
+      reps: Array.from(new Set(sets.map((s) => String(s.reps)))).sort((a, b) => Number(a) - Number(b)),
+      performed_on: Array.from(new Set(sets.map((s) => s.performed_on))).sort(),
     });
-    setAvailableFilters(newAvail);
-  }, [workoutHistory]);
+  }, [sets, displayUnit]);
 
   useEffect(() => {
     const onDocClick = (e: MouseEvent) => {
@@ -112,24 +93,134 @@ const LogPage = () => {
     setFilterOpen(null);
   };
 
-  const visibleHistory = workoutHistory.filter((entry) =>
-    Object.entries(filters).every(([col, val]) => !val || String(entry[col as FilterKey]) === val)
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleFormSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      const newSet = await createSet(exerciseId, {
+        weight: parseFloat(formData.weight),
+        unit: formData.unit,
+        setNumber: parseInt(formData.setNumber, 10),
+        reps: parseInt(formData.reps, 10),
+        date: formData.date,
+      });
+      setSets((prev) => [...prev, newSet]);
+      setFormData({ weight: "", unit: formData.unit, setNumber: "", reps: "", date: getTodayStr() });
+      setErrorMsg("");
+    } catch {
+      setErrorMsg("Failed to add set");
+    }
+  };
+
+  const handleEditClick = (entry: WorkoutSet) => {
+    setEditingId(entry.id);
+    setEditForm({
+      weight: getDisplayWeight(entry),
+      unit: displayUnit,
+      setNumber: String(entry.set_number),
+      reps: String(entry.reps),
+      date: entry.performed_on,
+    });
+  };
+
+  const handleEditChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setEditForm((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSaveEdit = async () => {
+    if (!editingId) return;
+    try {
+      const updated = await updateSet(editingId, {
+        weight: parseFloat(editForm.weight),
+        unit: editForm.unit,
+        setNumber: parseInt(editForm.setNumber, 10),
+        reps: parseInt(editForm.reps, 10),
+        date: editForm.date,
+      });
+      setSets((prev) => prev.map((s) => (s.id === editingId ? updated : s)));
+      setEditingId(null);
+    } catch {
+      setErrorMsg("Failed to update set");
+    }
+  };
+
+  const handleCancelEdit = () => setEditingId(null);
+
+  const handleDeleteSet = async (setId: string) => {
+    const confirmed = window.confirm("Delete this workout entry?");
+    if (!confirmed) return;
+    try {
+      await deleteSet(setId);
+      setSets((prev) => prev.filter((s) => s.id !== setId));
+    } catch {
+      setErrorMsg("Failed to delete set");
+    }
+  };
+
+  const visibleSets = sets.filter((entry) =>
+    Object.entries(filters).every(([col, val]) => {
+      if (!val) return true;
+      if (col === "weight") return getDisplayWeight(entry) === val;
+      if (col === "set_number") return String(entry.set_number) === val;
+      if (col === "reps") return String(entry.reps) === val;
+      if (col === "performed_on") return entry.performed_on === val;
+      return true;
+    })
   );
+
+  const FILTER_COLUMNS: { key: FilterKey; label: string }[] = [
+    { key: "weight", label: displayUnit === "kg" ? "Weight (kg)" : "Weight (lbs)" },
+    { key: "set_number", label: "Set" },
+    { key: "reps", label: "Reps" },
+    { key: "performed_on", label: "Date" },
+  ];
+
+  if (loading) return <div><p>Loading...</p></div>;
 
   return (
     <div>
       <h1>Workout Tracker</h1>
       <h3>Exercise: {exerciseName}</h3>
 
+      {errorMsg && <p style={{ color: "red" }}>{errorMsg}</p>}
+
+      <div className="unit-toggle">
+        <span>View history in: </span>
+        <button
+          className={displayUnit === "lbs" ? "unit-btn active" : "unit-btn"}
+          onClick={() => setDisplayUnit("lbs")}
+        >
+          lbs
+        </button>
+        <button
+          className={displayUnit === "kg" ? "unit-btn active" : "unit-btn"}
+          onClick={() => setDisplayUnit("kg")}
+        >
+          kg
+        </button>
+      </div>
+
       <form onSubmit={handleFormSubmit}>
         <div className="input-row">
           <div className="input-group">
-            <label htmlFor="weight">Weight (lbs):</label>
-            <input type="number" id="weight" name="weight" value={formData.weight} onChange={handleInputChange} required />
+            <label htmlFor="weight">Weight:</label>
+            <input type="number" step="0.01" id="weight" name="weight" value={formData.weight} onChange={handleInputChange} required />
+            <select
+              value={formData.unit}
+              onChange={(e) => setFormData((prev) => ({ ...prev, unit: e.target.value as "kg" | "lbs" }))}
+            >
+              <option value="lbs">lbs</option>
+              <option value="kg">kg</option>
+            </select>
           </div>
           <div className="input-group">
-            <label htmlFor="sets">Set:</label>
-            <input type="number" id="sets" name="sets" value={formData.sets} onChange={handleInputChange} required />
+            <label htmlFor="setNumber">Set:</label>
+            <input type="number" id="setNumber" name="setNumber" value={formData.setNumber} onChange={handleInputChange} required />
           </div>
           <div className="input-group">
             <label htmlFor="reps">Reps:</label>
@@ -175,33 +266,52 @@ const LogPage = () => {
           </tr>
         </thead>
         <tbody>
-          {visibleHistory.map((entry) => (
-            <tr key={entry.id}>
-              {editingId === entry.id ? (
-                <>
-                  <td><input className="table-input" type="number" name="weight" value={editForm.weight} onChange={handleEditChange} /></td>
-                  <td><input className="table-input" type="number" name="sets" value={editForm.sets} onChange={handleEditChange} /></td>
-                  <td><input className="table-input" type="number" name="reps" value={editForm.reps} onChange={handleEditChange} /></td>
-                  <td><input className="table-date-input" type="date" name="date" value={editForm.date} onChange={handleEditChange} /></td>
-                  <td className="action-cell">
-                    <button className="save-btn" onClick={handleSaveEdit} title="Save">💾</button>
-                    <button className="cancel-btn" onClick={handleCancelEdit} title="Cancel">✖️</button>
-                  </td>
-                </>
-              ) : (
-                <>
-                  <td>{entry.weight}</td>
-                  <td>{entry.sets}</td>
-                  <td>{entry.reps}</td>
-                  <td>{entry.date}</td>
-                  <td className="action-cell">
-                    <button className="edit-btn" onClick={() => handleEditClick(entry)} title="Edit set">✏️</button>
-                    <button className="delete-btn" onClick={() => handleDeleteWorkout(entry.id)} title="Delete set">🗑️</button>
-                  </td>
-                </>
-              )}
-            </tr>
-          ))}
+          {visibleSets.map((entry, idx) => {
+            const showGap = idx > 0 && visibleSets[idx - 1].performed_on !== entry.performed_on;
+            return (
+              <Fragment key={entry.id}>
+                {showGap && (
+                  <tr className="date-gap-row">
+                    <td colSpan={5}></td>
+                  </tr>
+                )}
+                <tr>
+                  {editingId === entry.id ? (
+                    <>
+                      <td>
+                        <input className="table-input" type="number" step="0.01" name="weight" value={editForm.weight} onChange={handleEditChange} />
+                        <select
+                          value={editForm.unit}
+                          onChange={(e) => setEditForm((prev) => ({ ...prev, unit: e.target.value as "kg" | "lbs" }))}
+                        >
+                          <option value="lbs">lbs</option>
+                          <option value="kg">kg</option>
+                        </select>
+                      </td>
+                      <td><input className="table-input" type="number" name="setNumber" value={editForm.setNumber} onChange={handleEditChange} /></td>
+                      <td><input className="table-input" type="number" name="reps" value={editForm.reps} onChange={handleEditChange} /></td>
+                      <td><input className="table-date-input" type="date" name="date" value={editForm.date} onChange={handleEditChange} /></td>
+                      <td className="action-cell">
+                        <button className="save-btn" onClick={handleSaveEdit} title="Save">💾</button>
+                        <button className="cancel-btn" onClick={handleCancelEdit} title="Cancel">✖️</button>
+                      </td>
+                    </>
+                  ) : (
+                    <>
+                      <td>{getDisplayWeight(entry)} {displayUnit}</td>
+                      <td>{entry.set_number}</td>
+                      <td>{entry.reps}</td>
+                      <td>{entry.performed_on}</td>
+                      <td className="action-cell">
+                        <button className="edit-btn" onClick={() => handleEditClick(entry)} title="Edit set">✏️</button>
+                        <button className="delete-btn" onClick={() => handleDeleteSet(entry.id)} title="Delete set">🗑️</button>
+                      </td>
+                    </>
+                  )}
+                </tr>
+              </Fragment>
+            );
+          })}
         </tbody>
       </table>
     </div>
