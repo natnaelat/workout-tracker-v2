@@ -1,40 +1,51 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./ExercisePage.css";
-
-interface Exercise {
-  id: string;
-  name: string;
-}
-
-// TODO: replace with data fetched from the API once the backend exists
-const initialExercises: Exercise[] = [
-  { id: "1", name: "Bench Press" },
-  { id: "2", name: "Squat" },
-  { id: "3", name: "Deadlift" },
-];
+import { fetchExercises, createExercise, deleteExercise, type Exercise } from "../api/exercises";
 
 const ExercisePage = () => {
   const [exerciseName, setExerciseName] = useState("");
-  const [exerciseList, setExerciseList] = useState<Exercise[]>(initialExercises);
+  const [exerciseList, setExerciseList] = useState<Exercise[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [errorMsg, setErrorMsg] = useState("");
   const navigate = useNavigate();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  useEffect(() => {
+    fetchExercises()
+      .then(setExerciseList)
+      .catch(() => setErrorMsg("Failed to load exercises"))
+      .finally(() => setLoading(false));
+  }, []);
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (exerciseName.trim()) {
-      // TODO: replace with API call -> POST /exercises
-      const newExercise: Exercise = { id: crypto.randomUUID(), name: exerciseName };
+    if (!exerciseName.trim()) return;
+
+    try {
+      const newExercise = await createExercise(exerciseName.trim());
       setExerciseList((prev) => [...prev, newExercise]);
       setExerciseName("");
+      setErrorMsg("");
+    } catch (err) {
+      if (err instanceof Error && err.message === "DUPLICATE") {
+        setErrorMsg(`You already have an exercise named "${exerciseName.trim()}"`);
+      } else {
+        setErrorMsg("Failed to add exercise");
+      }
     }
   };
 
-  const handleDeleteExercise = (exerciseId: string, name: string) => {
+  const handleDeleteExercise = async (exerciseId: string, name: string) => {
     const confirmed = window.confirm(`Delete exercise "${name}" and all associated workouts?`);
     if (!confirmed) return;
-    // TODO: replace with API call -> DELETE /exercises/:id
-    setExerciseList((prev) => prev.filter((e) => e.id !== exerciseId));
+
+    try {
+      await deleteExercise(exerciseId);
+      setExerciseList((prev) => prev.filter((e) => e.id !== exerciseId));
+    } catch {
+      setErrorMsg("Failed to delete exercise");
+    }
   };
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -48,6 +59,8 @@ const ExercisePage = () => {
   const filteredExercises = exerciseList.filter((exercise) =>
     exercise.name.toLowerCase().includes(searchTerm)
   );
+
+  if (loading) return <div className="exercise-page"><p>Loading...</p></div>;
 
   return (
     <div className="exercise-page">
@@ -65,6 +78,8 @@ const ExercisePage = () => {
         />
         <button type="submit">Add Exercise</button>
       </form>
+
+      {errorMsg && <p style={{ color: "red" }}>{errorMsg}</p>}
 
       <input
         type="text"

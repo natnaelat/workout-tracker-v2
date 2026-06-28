@@ -1,9 +1,8 @@
 import express from "express";
 import cors from "cors";
-import dotenv from "dotenv";
 import { pool } from "./db/pool.js";
-
-dotenv.config();
+import { devAuth } from "./middleware/devAuth.js";
+import { exercisesRouter } from "./routes/exercises.js";
 
 const app = express();
 app.use(cors());
@@ -18,6 +17,8 @@ app.get("/health", async (_req, res) => {
     res.status(500).json({ status: "error" });
   }
 });
+
+app.use("/exercises", devAuth, exercisesRouter);
 
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {
