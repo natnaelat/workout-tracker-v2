@@ -40,6 +40,8 @@ input[type="number"], input[type="date"] {
     background-color: #333; /* Dark gray background for input fields */
     color: #ffffff; /* White text for input fields */
     width: 115px; /* Set a fixed width for inputs */
+    height: 32px;
+    box-sizing: border-box;
 }
 
 button {
@@ -202,6 +204,10 @@ tbody tr.no-row-hover:hover {
     margin-right: 6px;
 }
 
+.cancel-btn {
+  margin-left: 50px;
+}
+
 .edit-btn:hover {
     color: #2ecc71; /* green for edit hover */
     background: rgba(46,204,113,0.12); /* subtle green translucent circle */
@@ -252,23 +258,83 @@ tbody tr.no-row-hover:hover {
     margin-right: 0;
 }
 
+.history-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin: 20px 0;
+}
+
+.history-header h2 {
+  margin: 0;
+}
+
+
 .unit-toggle {
-  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: row;
+  gap: 0;
+  margin: 0;
+  border-radius: 4px;
+  overflow: hidden;
+  border: 1px solid #555;
 }
 
 .unit-btn {
-  margin-left: 0.5rem;
-  padding: 0.25rem 0.75rem;
+  background-color: #3a3a3a;
+  color: #aaa;
+  border: none;
   cursor: pointer;
+  padding: 4px 10px;
+  font-size: 13px;
+  border-radius: 0;
+  margin: 0;
+}
+
+.unit-btn + .unit-btn {
+  border-left: 1px solid #555;
+}
+
+.unit-btn:hover {
+  background-color: #555;
 }
 
 .unit-btn.active {
-  background-color: #333;
-  color: white;
+  background-color: #1e90ff;
+  color: #ffffff;
 }
 
 .date-gap-row td {
   height: 14px;
   border: none;
   padding: 0;
+  vertical-align: middle;
+}
+
+.date-gap-line {
+  height: 1px;
+  background-color: #1e90ff;
+  width: 98%;
+  margin: 0 auto;
+}
+
+.weight-input-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 6px;
+}
+
+.unit-select {
+  background-color: #333;
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  height: 32px;
+  width: 55px;
+  padding: 0 6px;
+  cursor: pointer;
+  font-size: 13px;
+  box-sizing: border-box;
 }

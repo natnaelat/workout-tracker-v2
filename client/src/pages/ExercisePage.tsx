@@ -105,7 +105,7 @@ const ExercisePage = () => {
                   {exercise.name}
                 </span>
                 <button
-                  className="delete-btn"
+                  className="exercise-delete-btn"
                   onClick={(e) => {
                     e.stopPropagation();
                     handleDeleteExercise(exercise.id, exercise.name);

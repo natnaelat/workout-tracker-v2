@@ -10,6 +10,13 @@ const getTodayStr = () => {
   return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
 };
 
+const compareSets = (a: WorkoutSet, b: WorkoutSet) => {
+  if (a.performed_on !== b.performed_on) {
+    return a.performed_on < b.performed_on ? 1 : -1; // newest date first
+  }
+  return a.set_number - b.set_number; // lowest set number first
+};
+
 const LogPage = () => {
   const location = useLocation();
   const params = new URLSearchParams(location.search);
@@ -108,7 +115,7 @@ const LogPage = () => {
         reps: parseInt(formData.reps, 10),
         date: formData.date,
       });
-      setSets((prev) => [...prev, newSet]);
+      setSets((prev) => [...prev, newSet].sort(compareSets));
       setFormData({ weight: "", unit: formData.unit, setNumber: "", reps: "", date: getTodayStr() });
       setErrorMsg("");
     } catch {
@@ -142,7 +149,7 @@ const LogPage = () => {
         reps: parseInt(editForm.reps, 10),
         date: editForm.date,
       });
-      setSets((prev) => prev.map((s) => (s.id === editingId ? updated : s)));
+      setSets((prev) => prev.map((s) => (s.id === editingId ? updated : s)).sort(compareSets));
       setEditingId(null);
     } catch {
       setErrorMsg("Failed to update set");
@@ -174,7 +181,7 @@ const LogPage = () => {
   );
 
   const FILTER_COLUMNS: { key: FilterKey; label: string }[] = [
-    { key: "weight", label: displayUnit === "kg" ? "Weight (kg)" : "Weight (lbs)" },
+    { key: "weight", label: "Weight" },
     { key: "set_number", label: "Set" },
     { key: "reps", label: "Reps" },
     { key: "performed_on", label: "Date" },
@@ -183,40 +190,27 @@ const LogPage = () => {
   if (loading) return <div><p>Loading...</p></div>;
 
   return (
-    <div>
-      <h1>Workout Tracker</h1>
-      <h3>Exercise: {exerciseName}</h3>
+  <div>
+    <h1>Workout Tracker</h1>
+    <h3>Exercise: {exerciseName}</h3>
 
-      {errorMsg && <p style={{ color: "red" }}>{errorMsg}</p>}
-
-      <div className="unit-toggle">
-        <span>View history in: </span>
-        <button
-          className={displayUnit === "lbs" ? "unit-btn active" : "unit-btn"}
-          onClick={() => setDisplayUnit("lbs")}
-        >
-          lbs
-        </button>
-        <button
-          className={displayUnit === "kg" ? "unit-btn active" : "unit-btn"}
-          onClick={() => setDisplayUnit("kg")}
-        >
-          kg
-        </button>
-      </div>
+    {errorMsg && <p style={{ color: "red" }}>{errorMsg}</p>}
 
       <form onSubmit={handleFormSubmit}>
         <div className="input-row">
           <div className="input-group">
             <label htmlFor="weight">Weight:</label>
-            <input type="number" step="0.01" id="weight" name="weight" value={formData.weight} onChange={handleInputChange} required />
-            <select
-              value={formData.unit}
-              onChange={(e) => setFormData((prev) => ({ ...prev, unit: e.target.value as "kg" | "lbs" }))}
-            >
-              <option value="lbs">lbs</option>
-              <option value="kg">kg</option>
-            </select>
+            <div className="weight-input-row">
+              <input type="number" step="0.01" id="weight" name="weight" value={formData.weight} onChange={handleInputChange} required />
+              <select
+                className="unit-select"
+                value={formData.unit}
+                onChange={(e) => setFormData((prev) => ({ ...prev, unit: e.target.value as "kg" | "lbs" }))}
+              >
+                <option value="lbs">lbs</option>
+                <option value="kg">kg</option>
+              </select>
+            </div>
           </div>
           <div className="input-group">
             <label htmlFor="setNumber">Set:</label>
@@ -234,7 +228,23 @@ const LogPage = () => {
         <button type="submit">Add Set</button>
       </form>
 
-      <h2>Workout History</h2>
+      <div className="history-header">
+        <h2>Workout History</h2>
+        <div className="unit-toggle">
+          <button
+            className={displayUnit === "lbs" ? "unit-btn active" : "unit-btn"}
+            onClick={() => setDisplayUnit("lbs")}
+          >
+            lbs
+          </button>
+          <button
+            className={displayUnit === "kg" ? "unit-btn active" : "unit-btn"}
+            onClick={() => setDisplayUnit("kg")}
+          >
+            kg
+          </button>
+        </div>
+      </div>
       <table>
         <thead>
           <tr>
@@ -242,7 +252,7 @@ const LogPage = () => {
               <th className="filter-th" style={{ position: "relative" }} key={key}>
                 {label}
                 <button className="header-filter-btn" onClick={() => toggleFilterOpen(key)} title={`Filter ${key}`}>
-                  ⚙️
+                  🔍
                 </button>
                 {filterOpen === key && (
                   <div className={`filter-popover ${key === "weight" ? "weight-popover" : ""}`} ref={popoverRef}>
@@ -272,7 +282,9 @@ const LogPage = () => {
               <Fragment key={entry.id}>
                 {showGap && (
                   <tr className="date-gap-row">
-                    <td colSpan={5}></td>
+                    <td colSpan={5}>
+                      <div className="date-gap-line"></div>
+                    </td>
                   </tr>
                 )}
                 <tr>
@@ -281,6 +293,7 @@ const LogPage = () => {
                       <td>
                         <input className="table-input" type="number" step="0.01" name="weight" value={editForm.weight} onChange={handleEditChange} />
                         <select
+                          className="unit-select"
                           value={editForm.unit}
                           onChange={(e) => setEditForm((prev) => ({ ...prev, unit: e.target.value as "kg" | "lbs" }))}
                         >
