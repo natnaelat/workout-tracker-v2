@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { pool } from "../db/pool.js";
+import { exerciseSetsRouter } from "./exerciseSets.js";
 
 export const exercisesRouter = Router();
 
@@ -56,3 +57,5 @@ exercisesRouter.delete("/:id", async (req, res) => {
     res.status(500).json({ error: "Failed to delete exercise" });
   }
 });
+
+exercisesRouter.use("/:exerciseId/sets", exerciseSetsRouter);
