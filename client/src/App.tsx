@@ -87,28 +87,32 @@ function App() {
                     <div className="services__card">
                       <h2>See Change</h2>
                       <p>Start Today</p>
-                      {isSignedIn ? (
-                        <Link to="/exercise">
-                          <button className="button get-started">Get Started</button>
-                        </Link>
-                      ) : (
-                        <button className="button get-started" onClick={handleSignIn}>
-                          Get Started
-                        </button>
-                      )}
+                      <div className="get-started-wrapper">
+                        {isSignedIn ? (
+                          <Link to="/exercise">
+                            <button className="button get-started">Get Started</button>
+                          </Link>
+                        ) : (
+                          <button className="button get-started" onClick={handleSignIn}>
+                            Get Started
+                          </button>
+                        )}
+                      </div>
                     </div>
                     <div className="services__card">
                       <h2>Are you Ready?</h2>
                       <p>Take the leap</p>
-                      {isSignedIn ? (
-                        <Link to="/exercise">
-                          <button className="button get-started">Get Started</button>
-                        </Link>
-                      ) : (
-                        <button className="button get-started" onClick={handleSignIn}>
-                          Get Started
-                        </button>
-                      )}
+                      <div className="get-started-wrapper">
+                        {isSignedIn ? (
+                          <Link to="/exercise">
+                            <button className="button get-started">Get Started</button>
+                          </Link>
+                        ) : (
+                          <button className="button get-started" onClick={handleSignIn}>
+                            Get Started
+                          </button>
+                        )}
+                      </div>
                     </div>
                   </div>
                 </div>

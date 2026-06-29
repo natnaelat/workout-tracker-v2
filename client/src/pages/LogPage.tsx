@@ -2,6 +2,7 @@ import { Fragment, useState, useEffect, useRef } from "react";
 import { useLocation } from "react-router-dom";
 import "./LogPage.css";
 import { fetchSets, createSet, updateSet, deleteSet, type WorkoutSet } from "../api/sets";
+import UnitDropdown from "../components/UnitDropdown";
 
 type FilterKey = "weight" | "set_number" | "reps" | "performed_on";
 
@@ -202,14 +203,10 @@ const LogPage = () => {
             <label htmlFor="weight">Weight:</label>
             <div className="weight-input-row">
               <input type="number" step="0.01" id="weight" name="weight" value={formData.weight} onChange={handleInputChange} required />
-              <select
-                className="unit-select"
+              <UnitDropdown
                 value={formData.unit}
-                onChange={(e) => setFormData((prev) => ({ ...prev, unit: e.target.value as "kg" | "lbs" }))}
-              >
-                <option value="lbs">lbs</option>
-                <option value="kg">kg</option>
-              </select>
+                onChange={(unit) => setFormData((prev) => ({ ...prev, unit }))}
+              />
             </div>
           </div>
           <div className="input-group">
@@ -292,14 +289,10 @@ const LogPage = () => {
                     <>
                       <td>
                         <input className="table-input" type="number" step="0.01" name="weight" value={editForm.weight} onChange={handleEditChange} />
-                        <select
-                          className="unit-select"
+                        <UnitDropdown
                           value={editForm.unit}
-                          onChange={(e) => setEditForm((prev) => ({ ...prev, unit: e.target.value as "kg" | "lbs" }))}
-                        >
-                          <option value="lbs">lbs</option>
-                          <option value="kg">kg</option>
-                        </select>
+                          onChange={(unit) => setEditForm((prev) => ({ ...prev, unit }))}
+                        />
                       </td>
                       <td><input className="table-input" type="number" name="setNumber" value={editForm.setNumber} onChange={handleEditChange} /></td>
                       <td><input className="table-input" type="number" name="reps" value={editForm.reps} onChange={handleEditChange} /></td>

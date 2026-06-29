@@ -317,7 +317,7 @@ a {
   background-color: #ff8177;
   background-image: linear-gradient(to right, #779eff 0%, #7ab1ff 0%, #1d62d2 21%, #85d8f9 52%, #31b6da 78%, #5b71f0 100%);
   background-size: 100%;
-  margin-bottom: 5rem;
+  margin-bottom: 4rem;
   font-size: 2.5rem;
   -webkit-background-clip: text;
   -moz-background-clip: text;
@@ -396,12 +396,18 @@ a {
   text-align: center;  /* Center text */
   line-height: 25px;
   display: inline-block;  /* Prevent button from stretching */
-  margin: 27rem 2rem;  /* Adjust margin for spacing */
   border-radius: 5px;  /* Optional: rounded corners */
   background-color: #172591;  /* Button background color */
   color: white;  /* Button text color */
   text-decoration: none;  /* Remove underline from link */
   transition: background-color 0.3s ease; /* Smooth hover transition */
+}
+
+.get-started-wrapper {
+  margin-top: 27rem;
+  margin-left: 2rem;
+  margin-right: 1rem;
+  text-align: center;
 }
 
 .get-started:hover {

@@ -99,9 +99,9 @@ const ExercisePage = () => {
         </thead>
         <tbody>
           {filteredExercises.map((exercise) => (
-            <tr key={exercise.id}>
+            <tr key={exercise.id} onClick={() => handleRowClick(exercise)}>
               <td className="exercise-cell">
-                <span className="exercise-name" onClick={() => handleRowClick(exercise)}>
+                <span className="exercise-name">
                   {exercise.name}
                 </span>
                 <button
