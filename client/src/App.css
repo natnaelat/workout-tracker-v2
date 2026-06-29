@@ -44,6 +44,7 @@
   background-size: 100%;
   -webkit-background-clip: text;
   -moz-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
   -moz-text-fill-color: transparent;
   display: flex;
@@ -233,6 +234,7 @@
   background-size: 100%;
   -webkit-background-clip: text;
   -moz-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
   -moz-text-fill-color: transparent;
 }
@@ -244,6 +246,7 @@
   background-size: 100%;
   -webkit-background-clip: text;
   -moz-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
   -moz-text-fill-color: transparent;
 }
@@ -317,10 +320,11 @@ a {
   background-color: #ff8177;
   background-image: linear-gradient(to right, #779eff 0%, #7ab1ff 0%, #1d62d2 21%, #85d8f9 52%, #31b6da 78%, #5b71f0 100%);
   background-size: 100%;
-  margin-bottom: 4rem;
+  margin-bottom: 3rem;
   font-size: 2.5rem;
   -webkit-background-clip: text;
   -moz-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
   -moz-text-fill-color: transparent;
 }
