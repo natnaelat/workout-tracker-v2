@@ -14,9 +14,9 @@ const getTodayStr = () => {
 
 const compareSets = (a: WorkoutSet, b: WorkoutSet) => {
   if (a.performed_on !== b.performed_on) {
-    return a.performed_on < b.performed_on ? 1 : -1; // newest date first
+    return a.performed_on < b.performed_on ? 1 : -1;
   }
-  return a.set_number - b.set_number; // lowest set number first
+  return a.set_number - b.set_number;
 };
 
 const LogPage = () => {
@@ -204,11 +204,11 @@ const LogPage = () => {
   if (loading) return <div><p>Loading...</p></div>;
 
   return (
-  <div>
-    <h1>Workout Tracker</h1>
-    <h3>Exercise: {exerciseName}</h3>
+    <div>
+      <h1>Workout Tracker</h1>
+      <h3>Exercise: {exerciseName}</h3>
 
-    {errorMsg && <p style={{ color: "red" }}>{errorMsg}</p>}
+      {errorMsg && <p style={{ color: "red" }}>{errorMsg}</p>}
 
       <form onSubmit={handleFormSubmit}>
         <div className="input-row">
@@ -238,8 +238,20 @@ const LogPage = () => {
         <button type="submit">Add Set</button>
       </form>
 
-      <div className="history-header">
-        <h2>Workout History</h2>
+      <h2>Workout History</h2>
+
+      <div className="set-toggle-wrapper">
+        <div className="set-toggle">
+          {setNumbersForGraph.map((num) => (
+            <button
+              key={num}
+              className={graphSetNumber === num ? "set-btn active" : "set-btn"}
+              onClick={() => setGraphSetNumber(num)}
+            >
+              Set {num}
+            </button>
+          ))}
+        </div>
         <div className="unit-toggle">
           <button
             className={displayUnit === "lbs" ? "unit-btn active" : "unit-btn"}
@@ -255,6 +267,9 @@ const LogPage = () => {
           </button>
         </div>
       </div>
+
+      <ProgressChart sets={graphSets} displayUnit={displayUnit} />
+
       <table>
         <thead>
           <tr>
@@ -333,21 +348,6 @@ const LogPage = () => {
           })}
         </tbody>
       </table>
-      <div className="progress-header">
-        <h2>Progress</h2>
-        <div className="set-toggle">
-          {setNumbersForGraph.map((num) => (
-            <button
-              key={num}
-              className={graphSetNumber === num ? "set-btn active" : "set-btn"}
-              onClick={() => setGraphSetNumber(num)}
-            >
-              Set {num}
-            </button>
-          ))}
-        </div>
-      </div>
-      <ProgressChart sets={graphSets} displayUnit={displayUnit} />
     </div>
   );
 };
