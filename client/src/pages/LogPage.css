@@ -394,3 +394,55 @@ tbody tr.no-row-hover:hover {
   background: rgba(30, 144, 255, 0.2);
   font-weight: bold;
 }
+
+.progress-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin: 20px 0;
+}
+
+.progress-header h2 {
+  margin: 0;
+}
+
+.set-toggle {
+  display: flex;
+  flex-direction: row;
+  gap: 0;
+  margin: 0;
+  border-radius: 4px;
+  overflow: hidden;
+  border: 1px solid #555;
+}
+
+.set-btn {
+  background-color: #3a3a3a;
+  color: #aaa;
+  border: none;
+  cursor: pointer;
+  padding: 4px 10px;
+  font-size: 13px;
+  border-radius: 0;
+  margin: 0;
+}
+
+.set-btn + .set-btn {
+  border-left: 1px solid #555;
+}
+
+.set-btn:hover {
+  background-color: #555;
+}
+
+.set-btn.active {
+  background-color: #1e90ff;
+  color: #ffffff;
+}
+
+.progress-empty {
+  text-align: center;
+  color: #aaa;
+  padding: 20px;
+}

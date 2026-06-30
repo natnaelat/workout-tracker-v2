@@ -3,6 +3,7 @@ import { useLocation } from "react-router-dom";
 import "./LogPage.css";
 import { fetchSets, createSet, updateSet, deleteSet, type WorkoutSet } from "../api/sets";
 import UnitDropdown from "../components/UnitDropdown";
+import ProgressChart from "../components/ProgressChart";
 
 type FilterKey = "weight" | "set_number" | "reps" | "performed_on";
 
@@ -28,6 +29,7 @@ const LogPage = () => {
   const [loading, setLoading] = useState(true);
   const [errorMsg, setErrorMsg] = useState("");
   const [displayUnit, setDisplayUnit] = useState<"kg" | "lbs">("lbs");
+  const [graphSetNumber, setGraphSetNumber] = useState<number | null>(null);
 
   const [formData, setFormData] = useState({
     weight: "",
@@ -64,6 +66,14 @@ const LogPage = () => {
       .catch(() => setErrorMsg("Failed to load workout history"))
       .finally(() => setLoading(false));
   }, [exerciseId]);
+
+  useEffect(() => {
+    if (sets.length === 0) return;
+    const setNumbers = Array.from(new Set(sets.map((s) => s.set_number))).sort((a, b) => a - b);
+    if (graphSetNumber === null || !setNumbers.includes(graphSetNumber)) {
+      setGraphSetNumber(setNumbers[0]);
+    }
+  }, [sets, graphSetNumber]);
 
   const getDisplayWeight = (row: WorkoutSet) =>
     displayUnit === "kg" ? row.weight_kg : row.weight_lbs;
@@ -180,6 +190,9 @@ const LogPage = () => {
       return true;
     })
   );
+
+  const setNumbersForGraph = Array.from(new Set(sets.map((s) => s.set_number))).sort((a, b) => a - b);
+  const graphSets = sets.filter((s) => s.set_number === graphSetNumber);
 
   const FILTER_COLUMNS: { key: FilterKey; label: string }[] = [
     { key: "weight", label: "Weight" },
@@ -320,6 +333,21 @@ const LogPage = () => {
           })}
         </tbody>
       </table>
+      <div className="progress-header">
+        <h2>Progress</h2>
+        <div className="set-toggle">
+          {setNumbersForGraph.map((num) => (
+            <button
+              key={num}
+              className={graphSetNumber === num ? "set-btn active" : "set-btn"}
+              onClick={() => setGraphSetNumber(num)}
+            >
+              Set {num}
+            </button>
+          ))}
+        </div>
+      </div>
+      <ProgressChart sets={graphSets} displayUnit={displayUnit} />
     </div>
   );
 };
