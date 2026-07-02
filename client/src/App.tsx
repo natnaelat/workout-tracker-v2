@@ -9,6 +9,7 @@ import {
 import "./App.css";
 import ExercisePage from "./pages/ExercisePage";
 import LogPage from "./pages/LogPage";
+import WeightPage from "./pages/WeightPage";
 
 function App() {
   // TODO: replace with real auth state once Cognito is wired up
@@ -39,6 +40,11 @@ function App() {
               <li className="navbar__item">
                 <Link to="/exercise" className="navbar__links" id="exercise-link">
                   Logs
+                </Link>
+              </li>
+              <li className="navbar__item">
+                <Link to="/weight" className="navbar__links" id="weight-link">
+                  Weight
                 </Link>
               </li>
               <li className="navbar__btn">
@@ -126,6 +132,10 @@ function App() {
           <Route
             path="/log"
             element={isSignedIn ? <LogPage /> : <Navigate to="/" />}
+          />
+          <Route
+            path="/weight"
+            element={isSignedIn ? <WeightPage /> : <Navigate to="/" />}
           />
         </Routes>
       </div>

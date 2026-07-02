@@ -1,42 +1,33 @@
 import { Fragment, useState, useEffect, useRef } from "react";
-import { useLocation } from "react-router-dom";
-import "./LogPage.css";
-import { fetchSets, createSet, updateSet, deleteSet, type WorkoutSet } from "../api/sets";
+import "./WeightPage.css";
+import {
+  fetchWeightLogs,
+  createWeightLog,
+  updateWeightLog,
+  deleteWeightLog,
+  type WeightLog,
+} from "../api/bodyweight";
 import UnitDropdown from "../components/UnitDropdown";
-import ProgressChart from "../components/ProgressChart";
+import WeightChart from "../components/WeightChart";
 import { formatDisplayDate } from "../utils/progress";
-
-type FilterKey = "weight" | "set_number" | "reps" | "performed_on";
 
 const getTodayStr = () => {
   const d = new Date();
   return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
 };
 
-const compareSets = (a: WorkoutSet, b: WorkoutSet) => {
-  if (a.performed_on !== b.performed_on) {
-    return a.performed_on < b.performed_on ? 1 : -1;
-  }
-  return a.set_number - b.set_number;
-};
+const compareLogs = (a: WeightLog, b: WeightLog) =>
+  a.logged_on < b.logged_on ? 1 : -1;
 
-const LogPage = () => {
-  const location = useLocation();
-  const params = new URLSearchParams(location.search);
-  const exerciseId = params.get("exerciseId") || "";
-  const exerciseName = params.get("exerciseName") || "None";
-
-  const [sets, setSets] = useState<WorkoutSet[]>([]);
+const WeightPage = () => {
+  const [logs, setLogs] = useState<WeightLog[]>([]);
   const [loading, setLoading] = useState(true);
   const [errorMsg, setErrorMsg] = useState("");
   const [displayUnit, setDisplayUnit] = useState<"kg" | "lbs">("lbs");
-  const [graphSetNumber, setGraphSetNumber] = useState<number | null>(null);
 
   const [formData, setFormData] = useState({
     weight: "",
     unit: "lbs" as "kg" | "lbs",
-    setNumber: "",
-    reps: "",
     date: getTodayStr(),
   });
 
@@ -44,49 +35,32 @@ const LogPage = () => {
   const [editForm, setEditForm] = useState({
     weight: "",
     unit: "lbs" as "kg" | "lbs",
-    setNumber: "",
-    reps: "",
     date: "",
   });
 
   const [filters, setFilters] = useState<Record<string, string>>({});
   const [availableFilters, setAvailableFilters] = useState<Record<string, string[]>>({
-    weight: [], set_number: [], reps: [], performed_on: [],
+    weight: [], logged_on: [],
   });
   const [filterOpen, setFilterOpen] = useState<string | null>(null);
   const popoverRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (!exerciseId) {
-      setErrorMsg("No exercise selected");
-      setLoading(false);
-      return;
-    }
-    fetchSets(exerciseId)
-      .then(setSets)
-      .catch(() => setErrorMsg("Failed to load workout history"))
+    fetchWeightLogs()
+      .then(setLogs)
+      .catch(() => setErrorMsg("Failed to load weight logs"))
       .finally(() => setLoading(false));
-  }, [exerciseId]);
+  }, []);
 
-  useEffect(() => {
-    if (sets.length === 0) return;
-    const setNumbers = Array.from(new Set(sets.map((s) => s.set_number))).sort((a, b) => a - b);
-    if (graphSetNumber === null || !setNumbers.includes(graphSetNumber)) {
-      setGraphSetNumber(setNumbers[0]);
-    }
-  }, [sets, graphSetNumber]);
-
-  const getDisplayWeight = (row: WorkoutSet) =>
+  const getDisplayWeight = (row: WeightLog) =>
     displayUnit === "kg" ? row.weight_kg : row.weight_lbs;
 
   useEffect(() => {
     setAvailableFilters({
-      weight: Array.from(new Set(sets.map(getDisplayWeight))).sort((a, b) => Number(a) - Number(b)),
-      set_number: Array.from(new Set(sets.map((s) => String(s.set_number)))).sort((a, b) => Number(a) - Number(b)),
-      reps: Array.from(new Set(sets.map((s) => String(s.reps)))).sort((a, b) => Number(a) - Number(b)),
-      performed_on: Array.from(new Set(sets.map((s) => s.performed_on))).sort(),
+      weight: Array.from(new Set(logs.map(getDisplayWeight))).sort((a, b) => Number(a) - Number(b)),
+      logged_on: Array.from(new Set(logs.map((l) => l.logged_on))).sort(),
     });
-  }, [sets, displayUnit]);
+  }, [logs, displayUnit]);
 
   useEffect(() => {
     const onDocClick = (e: MouseEvent) => {
@@ -120,29 +94,25 @@ const LogPage = () => {
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const newSet = await createSet(exerciseId, {
+      const newLog = await createWeightLog({
         weight: parseFloat(formData.weight),
         unit: formData.unit,
-        setNumber: parseInt(formData.setNumber, 10),
-        reps: parseInt(formData.reps, 10),
         date: formData.date,
       });
-      setSets((prev) => [...prev, newSet].sort(compareSets));
-      setFormData({ weight: "", unit: formData.unit, setNumber: "", reps: "", date: getTodayStr() });
+      setLogs((prev) => [...prev, newLog].sort(compareLogs));
+      setFormData({ weight: "", unit: formData.unit, date: getTodayStr() });
       setErrorMsg("");
     } catch {
-      setErrorMsg("Failed to add set");
+      setErrorMsg("Failed to add weight log");
     }
   };
 
-  const handleEditClick = (entry: WorkoutSet) => {
+  const handleEditClick = (entry: WeightLog) => {
     setEditingId(entry.id);
     setEditForm({
       weight: getDisplayWeight(entry),
       unit: displayUnit,
-      setNumber: String(entry.set_number),
-      reps: String(entry.reps),
-      date: entry.performed_on,
+      date: entry.logged_on,
     });
   };
 
@@ -154,60 +124,50 @@ const LogPage = () => {
   const handleSaveEdit = async () => {
     if (!editingId) return;
     try {
-      const updated = await updateSet(editingId, {
+      const updated = await updateWeightLog(editingId, {
         weight: parseFloat(editForm.weight),
         unit: editForm.unit,
-        setNumber: parseInt(editForm.setNumber, 10),
-        reps: parseInt(editForm.reps, 10),
         date: editForm.date,
       });
-      setSets((prev) => prev.map((s) => (s.id === editingId ? updated : s)).sort(compareSets));
+      setLogs((prev) => prev.map((l) => (l.id === editingId ? updated : l)).sort(compareLogs));
       setEditingId(null);
     } catch {
-      setErrorMsg("Failed to update set");
+      setErrorMsg("Failed to update weight log");
     }
   };
 
   const handleCancelEdit = () => setEditingId(null);
 
-  const handleDeleteSet = async (setId: string) => {
-    const confirmed = window.confirm("Delete this workout entry?");
+  const handleDeleteLog = async (id: string) => {
+    const confirmed = window.confirm("Delete this weight entry?");
     if (!confirmed) return;
     try {
-      await deleteSet(setId);
-      setSets((prev) => prev.filter((s) => s.id !== setId));
+      await deleteWeightLog(id);
+      setLogs((prev) => prev.filter((l) => l.id !== id));
     } catch {
-      setErrorMsg("Failed to delete set");
+      setErrorMsg("Failed to delete weight log");
     }
   };
 
-  const visibleSets = sets.filter((entry) =>
+  const FILTER_COLUMNS = [
+    { key: "weight", label: "Weight" },
+    { key: "logged_on", label: "Date" },
+  ];
+
+  const visibleLogs = logs.filter((entry) =>
     Object.entries(filters).every(([col, val]) => {
       if (!val) return true;
       if (col === "weight") return getDisplayWeight(entry) === val;
-      if (col === "set_number") return String(entry.set_number) === val;
-      if (col === "reps") return String(entry.reps) === val;
-      if (col === "performed_on") return entry.performed_on === val;
+      if (col === "logged_on") return entry.logged_on === val;
       return true;
     })
   );
-
-  const setNumbersForGraph = Array.from(new Set(sets.map((s) => s.set_number))).sort((a, b) => a - b);
-  const graphSets = sets.filter((s) => s.set_number === graphSetNumber);
-
-  const FILTER_COLUMNS: { key: FilterKey; label: string }[] = [
-    { key: "weight", label: "Weight" },
-    { key: "set_number", label: "Set" },
-    { key: "reps", label: "Reps" },
-    { key: "performed_on", label: "Date" },
-  ];
 
   if (loading) return <div><p>Loading...</p></div>;
 
   return (
     <div>
-      <h1>Workout Tracker</h1>
-      <h3>Exercise: {exerciseName}</h3>
+      <h1>Weight Tracker</h1>
 
       {errorMsg && <p style={{ color: "red" }}>{errorMsg}</p>}
 
@@ -216,7 +176,15 @@ const LogPage = () => {
           <div className="input-group">
             <label htmlFor="weight">Weight:</label>
             <div className="weight-input-row">
-              <input type="number" step="0.01" id="weight" name="weight" value={formData.weight} onChange={handleInputChange} required />
+              <input
+                type="number"
+                step="0.01"
+                id="weight"
+                name="weight"
+                value={formData.weight}
+                onChange={handleInputChange}
+                required
+              />
               <UnitDropdown
                 value={formData.unit}
                 onChange={(unit) => setFormData((prev) => ({ ...prev, unit }))}
@@ -224,35 +192,22 @@ const LogPage = () => {
             </div>
           </div>
           <div className="input-group">
-            <label htmlFor="setNumber">Set:</label>
-            <input type="number" id="setNumber" name="setNumber" value={formData.setNumber} onChange={handleInputChange} required />
-          </div>
-          <div className="input-group">
-            <label htmlFor="reps">Reps:</label>
-            <input type="number" id="reps" name="reps" value={formData.reps} onChange={handleInputChange} required />
-          </div>
-          <div className="input-group">
             <label htmlFor="date">Date:</label>
-            <input type="date" id="date" name="date" value={formData.date} onChange={handleInputChange} required />
+            <input
+              type="date"
+              id="date"
+              name="date"
+              value={formData.date}
+              onChange={handleInputChange}
+              required
+            />
           </div>
         </div>
-        <button type="submit">Add Set</button>
+        <button type="submit">Add Weight</button>
       </form>
 
-      <h2>Workout History</h2>
-
-      <div className="set-toggle-wrapper">
-        <div className="set-toggle">
-          {setNumbersForGraph.map((num) => (
-            <button
-              key={num}
-              className={graphSetNumber === num ? "set-btn active" : "set-btn"}
-              onClick={() => setGraphSetNumber(num)}
-            >
-              Set {num}
-            </button>
-          ))}
-        </div>
+      <div className="history-header">
+        <h2>Weight History</h2>
         <div className="unit-toggle">
           <button
             className={displayUnit === "lbs" ? "unit-btn active" : "unit-btn"}
@@ -269,7 +224,9 @@ const LogPage = () => {
         </div>
       </div>
 
-      <ProgressChart sets={graphSets} displayUnit={displayUnit} />
+      <div className="progress-chart-wrapper">
+        <WeightChart logs={logs} displayUnit={displayUnit} />
+      </div>
 
       <table>
         <thead>
@@ -277,11 +234,15 @@ const LogPage = () => {
             {FILTER_COLUMNS.map(({ key, label }) => (
               <th className="filter-th" style={{ position: "relative" }} key={key}>
                 {label}
-                <button className="header-filter-btn" onClick={() => toggleFilterOpen(key)} title={`Filter ${key}`}>
+                <button
+                  className="header-filter-btn"
+                  onClick={() => toggleFilterOpen(key)}
+                  title={`Filter ${key}`}
+                >
                   🔍
                 </button>
                 {filterOpen === key && (
-                  <div className={`filter-popover ${key === "weight" ? "weight-popover" : ""}`} ref={popoverRef}>
+                  <div className="filter-popover" ref={popoverRef}>
                     {availableFilters[key].map((v) => (
                       <button
                         key={v}
@@ -302,13 +263,13 @@ const LogPage = () => {
           </tr>
         </thead>
         <tbody>
-          {visibleSets.map((entry, idx) => {
-            const showGap = idx > 0 && visibleSets[idx - 1].performed_on !== entry.performed_on;
+          {visibleLogs.map((entry, idx) => {
+            const showGap = idx > 0 && visibleLogs[idx - 1].logged_on !== entry.logged_on;
             return (
               <Fragment key={entry.id}>
                 {showGap && (
                   <tr className="date-gap-row">
-                    <td colSpan={5}>
+                    <td colSpan={3}>
                       <div className="date-gap-line"></div>
                     </td>
                   </tr>
@@ -317,15 +278,28 @@ const LogPage = () => {
                   {editingId === entry.id ? (
                     <>
                       <td>
-                        <input className="table-input" type="number" step="0.01" name="weight" value={editForm.weight} onChange={handleEditChange} />
+                        <input
+                          className="table-input"
+                          type="number"
+                          step="0.01"
+                          name="weight"
+                          value={editForm.weight}
+                          onChange={handleEditChange}
+                        />
                         <UnitDropdown
                           value={editForm.unit}
                           onChange={(unit) => setEditForm((prev) => ({ ...prev, unit }))}
                         />
                       </td>
-                      <td><input className="table-input" type="number" name="setNumber" value={editForm.setNumber} onChange={handleEditChange} /></td>
-                      <td><input className="table-input" type="number" name="reps" value={editForm.reps} onChange={handleEditChange} /></td>
-                      <td><input className="table-date-input" type="date" name="date" value={editForm.date} onChange={handleEditChange} /></td>
+                      <td>
+                        <input
+                          className="table-date-input"
+                          type="date"
+                          name="date"
+                          value={editForm.date}
+                          onChange={handleEditChange}
+                        />
+                      </td>
                       <td className="action-cell">
                         <button className="save-btn" onClick={handleSaveEdit} title="Save">💾</button>
                         <button className="cancel-btn" onClick={handleCancelEdit} title="Cancel">✖️</button>
@@ -334,12 +308,10 @@ const LogPage = () => {
                   ) : (
                     <>
                       <td>{getDisplayWeight(entry)} {displayUnit}</td>
-                      <td>{entry.set_number}</td>
-                      <td>{entry.reps}</td>
-                      <td>{formatDisplayDate(entry.performed_on)}</td>
+                      <td>{formatDisplayDate(entry.logged_on)}</td>
                       <td className="action-cell">
-                        <button className="edit-btn" onClick={() => handleEditClick(entry)} title="Edit set">✏️</button>
-                        <button className="delete-btn" onClick={() => handleDeleteSet(entry.id)} title="Delete set">🗑️</button>
+                        <button className="edit-btn" onClick={() => handleEditClick(entry)} title="Edit">✏️</button>
+                        <button className="delete-btn" onClick={() => handleDeleteLog(entry.id)} title="Delete">🗑️</button>
                       </td>
                     </>
                   )}
@@ -353,4 +325,4 @@ const LogPage = () => {
   );
 };
 
-export default LogPage;
+export default WeightPage;

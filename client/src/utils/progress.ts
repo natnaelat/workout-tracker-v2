@@ -7,3 +7,8 @@ export function formatShortDate(isoDate: string): string {
   const d = new Date(year, month - 1, day);
   return d.toLocaleDateString("en-US", { month: "short", day: "numeric" });
 }
+
+export function formatDisplayDate(isoDate: string): string {
+  const [year, month, day] = isoDate.split("-");
+  return `${month}-${day}-${year}`;
+}
