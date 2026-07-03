@@ -5,6 +5,7 @@ import { devAuth } from "./middleware/devAuth.js";
 import { exercisesRouter } from "./routes/exercises.js";
 import { setsRouter } from "./routes/sets.js";
 import { bodyweightRouter } from "./routes/bodyweight.js";
+import { profileRouter } from "./routes/profile.js";
 
 const app = express();
 app.use(cors());
@@ -23,6 +24,7 @@ app.get("/health", async (_req, res) => {
 app.use("/exercises", devAuth, exercisesRouter);
 app.use("/sets", devAuth, setsRouter);
 app.use("/bodyweight", devAuth, bodyweightRouter);
+app.use("/profile", devAuth, profileRouter);
 
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {

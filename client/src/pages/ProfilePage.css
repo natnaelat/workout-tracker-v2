@@ -1,0 +1,184 @@
+.profile-page {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+.profile-form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin-top: 24px;
+}
+
+.profile-field {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  text-align: left;
+}
+
+.profile-page .profile-field > label {
+  width: auto !important;
+  flex-shrink: 0;
+  color: #1e90ff;
+  font-size: 14px;
+  font-weight: bold;
+  white-space: nowrap;
+  display: inline-flex !important;
+  align-items: center;
+  margin: 0 !important;
+}
+
+.profile-field label {
+  color: #1e90ff;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.profile-field-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: 120px;
+  flex-shrink: 0;
+  justify-content: space-between;
+}
+
+.profile-field-header label {
+  color: #1e90ff;
+  font-size: 14px;
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+.profile-field input[type="text"],
+.profile-field input[type="number"],
+.profile-field input[type="date"] {
+  background-color: #333;
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 12px;
+  font-size: 14px;
+  width: 100%;
+  box-sizing: border-box;
+  height: 36px;
+  color-scheme: dark;
+}
+
+.profile-field input[type="text"]:focus,
+.profile-field input[type="number"]:focus,
+.profile-field input[type="date"]:focus {
+  outline: 1px solid #1e90ff;
+}
+
+.height-inputs {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+}
+
+.height-inputs input {
+  flex: 1;
+}
+
+.height-sep {
+  color: #aaa;
+  font-size: 14px;
+}
+
+.profile-age {
+  color: #aaa;
+  font-weight: normal;
+  font-size: 13px;
+}
+
+.profile-weight-display {
+  background-color: #333;
+  color: #aaa;
+  border-radius: 4px;
+  padding: 8px 12px;
+  font-size: 14px;
+  margin: 0;
+  text-align: left;
+}
+
+.profile-error {
+  color: #e74c3c;
+  text-align: center;
+}
+
+.sign-out-btn {
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 16px;
+  transition: background-color 0.3s;
+  width: fit-content;
+}
+
+.sign-out-btn:hover {
+  background-color: #c0392b;
+}
+
+.name-inputs {
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+  width: 100%;
+}
+
+.name-inputs input {
+  flex: 1;
+}
+
+.name-input-group {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+}
+
+.name-input-group label {
+  color: #1e90ff;
+  font-size: 14px;
+  font-weight: bold;
+  white-space: nowrap;
+  width: 90px;
+  flex-shrink: 0;
+}
+
+.name-input-group input {
+  flex: 1;
+  width: 100%;
+}
+
+.height-inputs {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+  min-width: 0;
+}
+
+.profile-field .height-inputs input[type="number"] {
+  width: auto !important;
+  flex: 1;
+  min-width: 0;
+}
+
+.sex-toggle {
+  flex: 1;
+}
+
+.profile-weight-display {
+  flex: 1;
+}

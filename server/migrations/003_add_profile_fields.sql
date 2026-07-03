@@ -1,0 +1,4 @@
+ALTER TABLE users
+ADD COLUMN display_name VARCHAR(100),
+ADD COLUMN height_ft INTEGER,
+ADD COLUMN height_in INTEGER;
