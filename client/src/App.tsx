@@ -93,7 +93,11 @@ function AppContent() {
                   <div className="main__content">
                     <h1>Improve Your Health.</h1>
                     <h2>Reach Your Goals.</h2>
-                    {!isSignedIn && (
+                    {isSignedIn ? (
+                      <button className="main__btn" onClick={() => navigate("/exercise")}>
+                        Log Exercise
+                      </button>
+                    ) : (
                       <button className="main__btn" onClick={handleSignIn}>
                         Get Started
                       </button>
