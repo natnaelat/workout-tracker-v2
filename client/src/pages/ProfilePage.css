@@ -4,14 +4,14 @@
   padding: 40px 20px;
 }
 
-.profile-form {
+.profile-page .profile-form {
   display: flex;
   flex-direction: column;
   gap: 24px;
   margin-top: 24px;
 }
 
-.profile-field {
+.profile-page .profile-field {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -31,13 +31,13 @@
   margin: 0 !important;
 }
 
-.profile-field label {
+.profile-page .profile-field label {
   color: #1e90ff;
   font-size: 14px;
   font-weight: bold;
 }
 
-.profile-field-header {
+.profile-page .profile-field-header {
   display: flex;
   align-items: center;
   gap: 16px;
@@ -46,16 +46,16 @@
   justify-content: space-between;
 }
 
-.profile-field-header label {
+.profile-page .profile-field-header label {
   color: #1e90ff;
   font-size: 14px;
   font-weight: bold;
   white-space: nowrap;
 }
 
-.profile-field input[type="text"],
-.profile-field input[type="number"],
-.profile-field input[type="date"] {
+.profile-page .profile-field input[type="text"],
+.profile-page .profile-field input[type="number"],
+.profile-page .profile-field input[type="date"] {
   background-color: #333;
   color: #ffffff;
   border: none;
@@ -68,35 +68,42 @@
   color-scheme: dark;
 }
 
-.profile-field input[type="text"]:focus,
-.profile-field input[type="number"]:focus,
-.profile-field input[type="date"]:focus {
+.profile-page .profile-field input[type="text"]:focus,
+.profile-page .profile-field input[type="number"]:focus,
+.profile-page .profile-field input[type="date"]:focus {
   outline: 1px solid #1e90ff;
 }
 
-.height-inputs {
+.profile-page .height-inputs {
   display: flex;
   align-items: center;
   gap: 8px;
   flex: 1;
+  min-width: 0;
 }
 
-.height-inputs input {
+.profile-page .height-inputs input {
   flex: 1;
 }
 
-.height-sep {
+.profile-page .profile-field .height-inputs input[type="number"] {
+  width: auto !important;
+  flex: 1;
+  min-width: 0;
+}
+
+.profile-page .height-sep {
   color: #aaa;
   font-size: 14px;
 }
 
-.profile-age {
+.profile-page .profile-age {
   color: #aaa;
   font-weight: normal;
   font-size: 13px;
 }
 
-.profile-weight-display {
+.profile-page .profile-weight-display {
   background-color: #333;
   color: #aaa;
   border-radius: 4px;
@@ -104,14 +111,15 @@
   font-size: 14px;
   margin: 0;
   text-align: left;
+  flex: 1;
 }
 
-.profile-error {
+.profile-page .profile-error {
   color: #e74c3c;
   text-align: center;
 }
 
-.sign-out-btn {
+.profile-page .sign-out-btn {
   background-color: #e74c3c;
   color: white;
   border: none;
@@ -120,26 +128,29 @@
   font-size: 16px;
   cursor: pointer;
   margin-top: 16px;
+  margin-left: auto;
+  margin-right: auto;
   transition: background-color 0.3s;
   width: fit-content;
+  display: block;
 }
 
-.sign-out-btn:hover {
+.profile-page .sign-out-btn:hover {
   background-color: #c0392b;
 }
 
-.name-inputs {
+.profile-page .name-inputs {
   display: flex;
   flex-direction: row;
   gap: 12px;
   width: 100%;
 }
 
-.name-inputs input {
+.profile-page .name-inputs input {
   flex: 1;
 }
 
-.name-input-group {
+.profile-page .name-input-group {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -147,7 +158,7 @@
   flex: 1;
 }
 
-.name-input-group label {
+.profile-page .name-input-group label {
   color: #1e90ff;
   font-size: 14px;
   font-weight: bold;
@@ -156,29 +167,55 @@
   flex-shrink: 0;
 }
 
-.name-input-group input {
+.profile-page .name-input-group input {
   flex: 1;
   width: 100%;
 }
 
-.height-inputs {
+.profile-page .sex-toggle {
+  flex: 1;
+  width: 100%;
+}
+
+.profile-page .sex-toggle .unit-btn {
+  flex: 1;
+}
+
+.profile-page .unit-toggle {
   display: flex;
-  align-items: center;
-  gap: 8px;
-  flex: 1;
-  min-width: 0;
+  flex-direction: row;
+  gap: 0;
+  margin: 0;
+  border-radius: 4px;
+  overflow: hidden;
+  border: 1px solid #555;
 }
 
-.profile-field .height-inputs input[type="number"] {
-  width: auto !important;
-  flex: 1;
-  min-width: 0;
+.profile-page .unit-btn {
+  background-color: #3a3a3a;
+  color: #aaa;
+  border: none;
+  cursor: pointer;
+  padding: 4px 10px;
+  font-size: 13px;
+  border-radius: 0;
+  margin: 0;
 }
 
-.sex-toggle {
-  flex: 1;
+.profile-page .unit-btn + .unit-btn {
+  border-left: 1px solid #555;
 }
 
-.profile-weight-display {
-  flex: 1;
+.profile-page .unit-btn:hover {
+  background-color: #555;
+}
+
+.profile-page .unit-btn.active {
+  background-color: #1e90ff;
+  color: #ffffff;
+}
+
+.profile-page h1 {
+  text-align: center;
+  color: #1e90ff;
 }

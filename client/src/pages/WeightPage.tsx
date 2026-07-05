@@ -166,7 +166,7 @@ const WeightPage = () => {
   if (loading) return <div><p>Loading...</p></div>;
 
   return (
-    <div>
+    <div className="weightpage">
       <h1>Weight Tracker</h1>
 
       {errorMsg && <p style={{ color: "red" }}>{errorMsg}</p>}

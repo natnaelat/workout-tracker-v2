@@ -205,7 +205,7 @@ const LogPage = () => {
   if (loading) return <div><p>Loading...</p></div>;
 
   return (
-    <div>
+    <div className="logpage">
       <h1>Workout Tracker</h1>
       <h3>Exercise: {exerciseName}</h3>
 
@@ -275,27 +275,29 @@ const LogPage = () => {
         <thead>
           <tr>
             {FILTER_COLUMNS.map(({ key, label }) => (
-              <th className="filter-th" style={{ position: "relative" }} key={key}>
+              <th className="filter-th" key={key}>
                 {label}
-                <button className="header-filter-btn" onClick={() => toggleFilterOpen(key)} title={`Filter ${key}`}>
-                  🔍
-                </button>
-                {filterOpen === key && (
-                  <div className={`filter-popover ${key === "weight" ? "weight-popover" : ""}`} ref={popoverRef}>
-                    {availableFilters[key].map((v) => (
-                      <button
-                        key={v}
-                        className={`filter-value ${filters[key] === v ? "selected" : ""}`}
-                        onClick={() => applyFilter(key, v)}
-                      >
-                        {v}
-                      </button>
-                    ))}
-                    <div className="filter-actions">
-                      <button onClick={() => clearFilter(key)}>Clear</button>
+                <span className="filter-btn-wrapper">
+                  <button className="header-filter-btn" onClick={() => toggleFilterOpen(key)} title={`Filter ${key}`}>
+                    🔍
+                  </button>
+                  {filterOpen === key && (
+                    <div className="filter-popover" ref={popoverRef}>
+                      {availableFilters[key].map((v) => (
+                        <button
+                          key={v}
+                          className={`filter-value ${filters[key] === v ? "selected" : ""}`}
+                          onClick={() => applyFilter(key, v)}
+                        >
+                          {v}
+                        </button>
+                      ))}
+                      <div className="filter-actions">
+                        <button onClick={() => clearFilter(key)}>Clear</button>
+                      </div>
                     </div>
-                  </div>
-                )}
+                  )}
+                </span>
               </th>
             ))}
             <th></th>

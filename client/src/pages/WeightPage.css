@@ -1,18 +1,18 @@
-body {
+.weightpage {
     font-family: Arial, sans-serif;
-    margin: 20px;
-    background-color: #131313; /* Black background */
-    color: #ffffff; /* White text for contrast */
+    background-color: #131313;
+    color: #ffffff;
     text-align: center;
 }
 
-h1, h2, h3 {
+.weightpage h1, .weightpage h2, .weightpage h3 {
     text-align: center;
-    color: #1e90ff; /* Dark blue color for headings */
+    color: #1e90ff;
 }
 
-form {
+.weightpage form {
     display: inline-block;
+    margin-top: 20px;
     margin-bottom: 20px;
     background-color: #1e1e1e;
     padding: 5px 20px 20px 20px;
@@ -20,102 +20,127 @@ form {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-.input-group {
+.weightpage form label,
+.weightpage form input,
+.weightpage form button {
+    display: block;
+    margin: 10px auto;
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+}
+
+.weightpage .input-group {
     display: flex;
-    flex-direction: column; /* Stack label and input vertically */
-    margin: 5px; /* Add margin for spacing */
+    flex-direction: column;
+    margin: 5px;
 }
 
-.input-group label {
-    margin-bottom: 5px; /* Space between label and input */
+.weightpage .input-group label {
+    margin-bottom: 5px;
 }
 
-.input-row {
-    display: flex; /* Align input groups horizontally */
-    justify-content: center; /* Center horizontally */
-    flex-wrap: wrap; /* Allow wrapping on small screens */
+.weightpage .input-row {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
 }
 
-input[type="number"], input[type="date"] {
-    background-color: #333; /* Dark gray background for input fields */
-    color: #ffffff; /* White text for input fields */
-    width: 115px; /* Set a fixed width for inputs */
+.weightpage input[type="number"],
+.weightpage input[type="date"] {
+    background-color: #333;
+    color: #ffffff;
+    width: 115px;
     height: 32px;
     box-sizing: border-box;
 }
 
-input[type="date"] {
-  color-scheme: dark;
+.weightpage input[type="date"] {
+    color-scheme: dark;
 }
 
-button {
-    background-color: #1e90ff; /* Dark blue button */
+.weightpage button {
+    background-color: #1e90ff;
     color: white;
     cursor: pointer;
     transition: background-color 0.3s;
-    margin-top: 10px; /* Space above the button */
 }
 
-button:hover {
-    background-color: #007acc; /* Lighter blue on hover */
+.weightpage button:hover {
+    background-color: #007acc;
 }
 
-table {
-    width: 100%;
+.weightpage form button {
+    margin-top: 10px;
+}
+
+.weightpage table {
+    width: 98%;
     border-collapse: collapse;
     margin: 20px auto;
+    border-radius: 10px;
+    overflow: hidden;
 }
 
-th, td {
+.weightpage th, .weightpage td {
     padding: 10px;
     text-align: center;
-    border: 1px solid #555; /* Darker border color for the table */
+    border: 1px solid #555;
     cursor: pointer;
 }
 
-th {
-    background-color: #1e90ff; /* Dark blue for table headers */
-    color: #ffffff; /* White text for headers */
+.weightpage th {
+    background-color: #1e90ff;
+    color: #ffffff;
 }
 
-tbody tr {
-    background-color: #1e1e1e; /* Dark gray background for workout rows */
-    transition: background-color 0.3s; /* Smooth transition for hover effect */
+.weightpage tbody tr {
+    background-color: #1e1e1e;
+    transition: background-color 0.3s;
 }
 
-tbody tr:hover {
-    background-color: #007acc; /* Lighter blue on row hover */
+.weightpage tbody tr:hover {
+    background-color: #007acc;
 }
 
-/* header filter button */
-.header-filter-btn {
+.weightpage tbody tr.no-row-hover:hover {
+    background-color: #1e1e1e;
+}
+
+.weightpage .header-filter-btn {
     background: transparent;
     border: none;
     color: #ffffff;
-    margin-left: 6px; /* small gap from the header text */
+    margin-left: 6px;
     cursor: pointer;
     font-size: 14px;
-    display: inline-flex;        /* ensure it sits inline with the header text */
+    display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 20px;                /* small square button */
+    width: 20px;
     height: 20px;
-    padding: 0;                 /* remove extra spacing */
+    padding: 0;
     line-height: 1;
-    vertical-align: middle;     /* align with header text baseline */
-    margin-top: 0;              /* prevent pushing below the header */
+    vertical-align: middle;
+    margin-top: 0;
 }
 
-/* slight nudge for header cells with filter buttons: shift all header content (text + icon) to the right */
-.filter-th {
-    padding-left: 10px; /* adjust this value to fine-tune centering */
+.weightpage .filter-th {
+    padding-left: 10px;
     padding-right: 4px;
 }
 
-.filter-popover {
+.weightpage .filter-btn-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.weightpage .filter-popover {
     position: absolute;
-    top: 28px;
-    left: 0;
+    top: 40px;
+    left: 50%;
+    transform: translateX(-50%);
     z-index: 20;
     background: #1b1b1b;
     border: 1px solid #444;
@@ -127,47 +152,39 @@ tbody tr:hover {
     min-width: 90px;
 }
 
-/* shift weight popover slightly to the right so it aligns better */
-.filter-popover.weight-popover {
-    left: 55px; /* adjust this value as needed */
-}
-
-.filter-value {
+.weightpage .filter-value {
     background: transparent;
     border: 1px solid #333;
     color: #fff;
     padding: 4px 6px;
     border-radius: 4px;
     cursor: pointer;
-    text-align: left;
+    text-align: center;
+    margin: 0;
 }
 
-.filter-value.selected {
+.weightpage .filter-value.selected {
     background: rgba(30,144,255,0.12);
     border-color: #1e90ff;
 }
 
-.filter-actions {
+.weightpage .filter-actions {
     display: flex;
-    justify-content: flex-end;
+    justify-content: center;
 }
 
-.filter-actions button {
+.weightpage .filter-actions button {
     background: transparent;
     color: #fff;
     border: none;
     cursor: pointer;
     font-size: 13px;
+    width: auto;
+    margin: 0;
+    padding: 0;
 }
 
-
-/* when hovering the delete or edit icon, prevent the row hover color */
-tbody tr.no-row-hover:hover {
-    background-color: #1e1e1e; /* same as default row color */
-}
-
-/* Delete icon styling to match exercise page */
-.delete-btn {
+.weightpage .delete-btn {
     background: transparent;
     border: none;
     color: #ffffff;
@@ -179,21 +196,23 @@ tbody tr.no-row-hover:hover {
     padding: 0;
     cursor: pointer;
     font-size: 16px;
-    margin-left: 50px; /* small gap from edit button */
+    margin-left: 50px;
+    margin-top: 0;
 }
 
-.delete-btn:hover {
-    color: #e74c3c; /* same red as exercise page */
-    background: rgba(231,76,60,0.12); /* subtle red circle */
+.weightpage .delete-btn:hover {
+    color: #e74c3c;
+    background: rgba(231,76,60,0.12);
     border-radius: 50%;
 }
 
-.delete-btn:focus {
+.weightpage .delete-btn:focus {
     outline: none;
 }
 
-/* edit / save / cancel buttons */
-.edit-btn, .save-btn, .cancel-btn {
+.weightpage .edit-btn,
+.weightpage .save-btn,
+.weightpage .cancel-btn {
     background: transparent;
     border: none;
     color: #ffffff;
@@ -205,37 +224,39 @@ tbody tr.no-row-hover:hover {
     padding: 0;
     cursor: pointer;
     font-size: 16px;
-    margin-right: 6px;
+    margin-right: 4px;
+    margin-top: 0;
 }
 
-.cancel-btn {
-  margin-left: 50px;
+.weightpage .cancel-btn {
+    margin-left: 50px;
 }
 
-.edit-btn:hover {
-    color: #2ecc71; /* green for edit hover */
-    background: rgba(46,204,113,0.12); /* subtle green translucent circle */
+.weightpage .edit-btn:hover {
+    color: #2ecc71;
+    background: rgba(46,204,113,0.12);
     border-radius: 50%;
 }
 
-.save-btn:hover {
-    color: #2ecc71; /* green for save */
+.weightpage .save-btn:hover {
+    color: #2ecc71;
 }
 
-.cancel-btn:hover {
-    color: #e74c3c; /* red for cancel */
+.weightpage .cancel-btn:hover {
+    color: #e74c3c;
 }
 
-.table-input {
+.weightpage .table-input {
     width: 80px;
     padding: 4px 6px;
     border-radius: 4px;
     border: none;
     background: #222;
     color: #fff;
+    margin-right: 6px;
 }
 
-.table-date-input {
+.weightpage .table-date-input {
     width: 120px;
     padding: 4px 6px;
     border-radius: 4px;
@@ -244,303 +265,161 @@ tbody tr.no-row-hover:hover {
     color: #fff;
 }
 
-/* action cell: reduce space and keep buttons close to the date */
-.action-cell {
+.weightpage .action-cell {
     width: 80px;
     padding-left: 8px;
-    padding-right: 100px; /* keep buttons away from the right edge */
+    padding-right: 100px;
     white-space: nowrap;
-    text-align: right; /* align buttons to the right side of the cell */
+    text-align: right;
 }
 
-/* tighten button spacing */
-.edit-btn, .save-btn, .cancel-btn {
-    margin-right: 4px;
+.weightpage .unit-toggle {
+    display: flex;
+    flex-direction: row;
+    gap: 0;
+    margin: 0;
+    border-radius: 4px;
+    overflow: hidden;
+    border: 1px solid #555;
 }
 
-.delete-btn {
-    margin-right: 0;
+.weightpage .unit-btn {
+    background-color: #3a3a3a;
+    color: #aaa;
+    border: none;
+    cursor: pointer;
+    padding: 4px 10px;
+    font-size: 13px;
+    border-radius: 0;
+    margin: 0;
 }
 
-.unit-toggle {
-  display: flex;
-  flex-direction: row;
-  gap: 0;
-  margin: 0;
-  border-radius: 4px;
-  overflow: hidden;
-  border: 1px solid #555;
+.weightpage .unit-btn + .unit-btn {
+    border-left: 1px solid #555;
 }
 
-.unit-btn {
-  background-color: #3a3a3a;
-  color: #aaa;
-  border: none;
-  cursor: pointer;
-  padding: 4px 10px;
-  font-size: 13px;
-  border-radius: 0;
-  margin: 0;
+.weightpage .unit-btn:hover {
+    background-color: #555;
 }
 
-.unit-btn + .unit-btn {
-  border-left: 1px solid #555;
+.weightpage .unit-btn.active {
+    background-color: #1e90ff;
+    color: #ffffff;
 }
 
-.unit-btn:hover {
-  background-color: #555;
+.weightpage .date-gap-row td {
+    height: 14px;
+    border: none;
+    padding: 0;
+    vertical-align: middle;
 }
 
-.unit-btn.active {
-  background-color: #1e90ff;
-  color: #ffffff;
+.weightpage .date-gap-line {
+    height: 1px;
+    background-color: #1e90ff;
+    width: 98%;
+    margin: 0 auto;
 }
 
-.date-gap-row td {
-  height: 14px;
-  border: none;
-  padding: 0;
-  vertical-align: middle;
+.weightpage .weight-input-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 6px;
 }
 
-.date-gap-line {
-  height: 1px;
-  background-color: #1e90ff;
-  width: 98%;
-  margin: 0 auto;
+.weightpage .unit-dropdown {
+    position: relative;
+    display: inline-block;
 }
 
-.weight-input-row {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 6px;
+.weightpage .unit-dropdown-trigger {
+    background-color: #333;
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    height: 32px;
+    width: 55px;
+    padding: 0 6px;
+    cursor: pointer;
+    font-size: 13px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
-.unit-dropdown {
-  position: relative;
-  display: inline-block;
+.weightpage .unit-dropdown-arrow {
+    font-size: 10px;
+    color: #aaa;
+    transition: transform 0.2s ease;
 }
 
-.unit-dropdown-trigger {
-  background-color: #333;
-  color: #ffffff;
-  border: none;
-  border-radius: 4px;
-  height: 32px;
-  width: 55px;
-  padding: 0 6px;
-  cursor: pointer;
-  font-size: 13px;
-  box-sizing: border-box;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+.weightpage .unit-dropdown-arrow.open {
+    transform: rotate(180deg);
 }
 
-.unit-dropdown-arrow {
-  font-size: 10px;
-  color: #aaa;
-  transition: transform 0.2s ease;
+.weightpage .unit-dropdown-menu {
+    position: absolute;
+    top: 42px;
+    left: 0;
+    z-index: 20;
+    background: #1b1b1b;
+    border: 1px solid #444;
+    border-radius: 6px;
+    display: flex;
+    flex-direction: column;
+    min-width: 55px;
+    overflow: hidden;
 }
 
-.unit-dropdown-arrow.open {
-  transform: rotate(180deg);
+.weightpage .unit-dropdown-option {
+    background: transparent;
+    border: none;
+    color: #fff;
+    padding: 6px 10px;
+    text-align: left;
+    cursor: pointer;
+    font-size: 13px;
+    margin: 0;
 }
 
-.unit-dropdown-menu {
-  position: absolute;
-  top: 42px;
-  left: 0;
-  z-index: 20;
-  background: #1b1b1b;
-  border: 1px solid #444;
-  border-radius: 6px;
-  display: flex;
-  flex-direction: column;
-  min-width: 55px;
-  overflow: hidden;
+.weightpage .unit-dropdown-option:hover {
+    background: rgba(30, 144, 255, 0.12);
 }
 
-.unit-dropdown-option {
-  background: transparent;
-  border: none;
-  color: #fff;
-  padding: 6px 10px;
-  text-align: left;
-  cursor: pointer;
-  font-size: 13px;
-  margin: 0;
+.weightpage .unit-dropdown-option.selected {
+    background: rgba(30, 144, 255, 0.2);
+    font-weight: bold;
 }
 
-.unit-dropdown-option:hover {
-  background: rgba(30, 144, 255, 0.12);
+.weightpage .history-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin: 20px 0;
 }
 
-.unit-dropdown-option.selected {
-  background: rgba(30, 144, 255, 0.2);
-  font-weight: bold;
+.weightpage .history-header h2 {
+    margin: 0;
+    flex-shrink: 0;
 }
 
-.progress-header {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  margin: 20px 0;
+.weightpage .progress-chart-card {
+    background-color: #ffffff;
+    border-radius: 8px;
+    padding: 16px;
 }
 
-.progress-header h2 {
-  margin: 0;
+.weightpage .progress-chart-wrapper {
+    position: relative;
+    max-width: 700px;
+    margin: 0 auto;
 }
 
-.set-toggle {
-  display: flex;
-  flex-direction: row;
-  gap: 0;
-  border-radius: 4px;
-  overflow: hidden;
-  border: 1px solid #555;
-}
-
-.set-toggle-wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 16px;
-  width: 100%;
-  margin: 10px 0;
-}
-
-.set-btn {
-  background-color: #3a3a3a;
-  color: #aaa;
-  border: none;
-  cursor: pointer;
-  padding: 4px 10px;
-  font-size: 13px;
-  border-radius: 0;
-  margin: 0;
-}
-
-.set-btn + .set-btn {
-  border-left: 1px solid #555;
-}
-
-.set-btn:hover {
-  background-color: #555;
-}
-
-.set-btn.active {
-  background-color: #1e90ff;
-  color: #ffffff;
-}
-
-.progress-empty {
-  text-align: center;
-  color: #aaa;
-  padding: 20px;
-}
-
-.progress-chart-card {
-  background-color: #ffffff;
-  border-radius: 8px;
-  padding: 16px;
-}
-
-.progress-chart-wrapper {
-  position: relative;
-  max-width: 700px;
-  margin: 0 auto;
-}
-
-.strength-info-btn {
-  position: absolute;
-  top: 25%;
-  left: 32px;
-  transform: translateY(-50%) rotate(-90deg);
-  background: transparent;
-  border: none;
-  color: #000000;
-  font-size: 14px;
-  font-weight: bold;
-  cursor: pointer;
-  padding: 0;
-  margin: 0;
-  width: 20px;
-  height: 20px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  line-height: 1;
-  z-index: 10;
-}
-
-.strength-info-btn:hover {
-  background: rgba(0, 0, 0, 0.08);
-  color: #000000;
-}
-
-.strength-info-popover {
-  position: absolute;
-  top: 45%;
-  left: 55px;
-  transform: translateY(-50%);
-  background: #1e1e1e;
-  border: 1px solid #444;
-  border-radius: 8px;
-  padding: 16px;
-  max-width: 280px;
-  z-index: 100;
-  text-align: left;
-  color: #fff;
-  font-size: 13px;
-  line-height: 1.6;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-}
-
-.strength-info-formula {
-  background: #2a2a2a;
-  border-radius: 4px;
-  padding: 6px 10px;
-  font-family: monospace;
-  font-size: 12px;
-  color: #1e90ff;
-  margin: 8px 0;
-}
-
-.strength-info-close {
-  position: absolute;
-  top: 8px;
-  right: 8px;
-  background: transparent;
-  border: none;
-  color: #aaa;
-  font-size: 13px;
-  cursor: pointer;
-  padding: 0;
-  margin: 0;
-  width: 20px;
-  height: 20px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  line-height: 1;
-}
-
-.strength-info-close:hover {
-  color: #fff;
-}
-
-.history-header {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  margin: 20px 0;
-}
-
-.history-header h2 {
-  margin: 0;
+.weightpage .progress-empty {
+    text-align: center;
+    color: #aaa;
+    padding: 20px;
 }

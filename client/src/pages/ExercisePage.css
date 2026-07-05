@@ -1,26 +1,30 @@
-body {
+.exercise-page {
     font-family: Arial, sans-serif;
-    margin: 20px;
-    background-color: #131313; /* Black background */
-    color: #ffffff; /* White text for contrast */
+    background-color: #131313;
+    color: #ffffff;
     text-align: center;
 }
 
-h1, h2 {
+.exercise-page h1,
+.exercise-page h2 {
     text-align: center;
-    color: #1e90ff; /* Dark blue color for headings */
+    color: #1e90ff;
 }
 
-form {
+.exercise-page form {
     display: inline-block;
     margin: 18px auto 28px;
-    background-color: #1e1e1e; /* Dark gray background for form */
-    padding: 25px 100px;
+    background-color: #1e1e1e;
+    padding-top: 25px !important;
+    padding-bottom: 25px;
+    padding-left: 40px;
+    padding-right: 40px;
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
-label, input, button {
+.exercise-page form label,
+.exercise-page form input {
     display: block;
     margin: 10px auto;
     width: 100%;
@@ -29,101 +33,108 @@ label, input, button {
     border-radius: 4px;
 }
 
-input[type="text"], input[type="number"], input[type="date"] {
-    background-color: #333; /* Dark gray background for input fields */
-    color: #ffffff; /* White text for input fields */
+.exercise-page form button[type="submit"] {
+    display: block;
+    margin: 10px auto 0;
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
 }
 
-button {
-    background-color: #1e90ff; /* Dark blue button */
+.exercise-page input[type="text"],
+.exercise-page input[type="number"],
+.exercise-page input[type="date"] {
+    background-color: #333;
+    color: #ffffff;
+    width: 115px;
+    height: 41px;
+    box-sizing: border-box;
+}
+
+.exercise-page button {
+    background-color: #1e90ff;
     color: white;
     cursor: pointer;
     transition: background-color 0.3s;
 }
 
-button:hover {
-    background-color: #007acc; /* Lighter blue on hover */
+.exercise-page button:hover {
+    background-color: #007acc;
 }
 
-#searchBar {
+.exercise-page #searchBar {
     width: 50%;
-    margin: 20px auto; /* Center the search bar */
+    margin: 20px auto;
     padding: 10px;
-    background-color: #333; /* Dark gray for search bar */
-    color: #ffffff; /* White text for search bar */
+    background-color: #333;
+    color: #ffffff;
     border: none;
     border-radius: 4px;
+    border-radius: 8px;
 }
 
-table {
-    width: 100%;
+.exercise-page table {
+    width: 98%;
     border-collapse: collapse;
     margin: 20px auto;
+    border-radius: 10px;
+    overflow: hidden;
 }
 
-th, td {
+.exercise-page th,
+.exercise-page td {
     padding: 10px;
     text-align: center;
-    border: 1px solid #555; /* Darker border color for the table */
+    border: 1px solid #555;
     cursor: pointer;
 }
 
-th {
-    background-color: #0d5398; /* Dark blue for table headers */
-    color: #ffffff; /* White text for headers */
+.exercise-page th {
+    background-color: #0d5398;
+    color: #ffffff;
 }
 
-tbody tr {
-    background-color: #295b9c; /* Dark gray background for exercise rows */
-    transition: background-color 0.3s; /* Smooth transition for hover effect */
+.exercise-page tbody tr {
+    background-color: #1e1e1e;
+    transition: background-color 0.3s;
 }
 
-tbody tr:hover {
-    background-color: #0f748e; /* Lighter blue on row hover */
+.exercise-page tbody tr:hover {
+    background-color: #0f748e;
+    opacity: 1;
 }
 
-/* when hovering the delete icon, prevent the row hover color */
-tbody tr.no-row-hover:hover {
-    background-color: #295b9c; /* same as default row color */
+.exercise-page tbody tr.no-row-hover:hover {
+    background-color: #1e1e1e;
 }
 
-/* Exercise cell: keep name and delete icon in the same row cell */
-.exercise-cell {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
-    align-items: center;
-    padding: 6px 12px;
-}
-
-.exercise-delete-btn {
+.exercise-page .exercise-delete-btn {
     background: transparent;
     border: none;
     color: #ffffff;
     width: 28px;
     height: 28px;
-    flex: 0 0 28px;
-    grid-column: 3;
-    justify-self: end;
-    margin-right: 45px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     padding: 0;
     cursor: pointer;
     font-size: 16px;
+    margin: 0;
 }
 
-.exercise-delete-btn:hover {
+.exercise-page .exercise-delete-btn:hover {
     color: #e74c3c;
     background: rgba(231, 76, 60, 0.12);
     border-radius: 50%;
 }
 
-.exercise-delete-btn:focus {
+.exercise-page .exercise-delete-btn:focus {
     outline: none;
 }
 
-.exercise-name {
+.exercise-page .exercise-name {
     grid-column: 2;
     text-align: center;
     cursor: pointer;
@@ -131,18 +142,188 @@ tbody tr.no-row-hover:hover {
     white-space: nowrap;
 }
 
-/* row hover (when hovering the exercise) */
-tbody tr:hover {
-  background-color: #0f748e; /* change this to the blue you want */
-  opacity: 1;                /* ensure full opacity */
+.exercise-page .input-group {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    margin: 0 8px;
 }
 
-/* when hovering the trash icon, keep row at normal color */
-tbody tr.no-row-hover:hover {
-  background-color: rgba(253, 3, 3, 0.367);
+.exercise-page .input-row {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
 }
 
-.header-filter-btn {
-  /* existing rules... */
-  transform: translateY(6px); /* positive = moves the button down */
+.exercise-page .input-group label {
+    display: block !important;
+    margin: 0 0 15px 0 !important;
+    width: auto !important;
+    padding: 0 !important;
+}
+
+.exercise-page .input-group select,
+.exercise-page .input-group input {
+    margin: 0;
+    padding: 10px;
+    height: 41px;
+    box-sizing: border-box;
+}
+
+.exercise-page select {
+    background-color: #333;
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    padding: 10px;
+    font-size: 14px;
+    cursor: pointer;
+    color-scheme: dark;
+    height: 38px;
+    box-sizing: border-box;
+}
+
+.exercise-page select:focus {
+    outline: 1px solid #1e90ff;
+}
+
+.exercise-page .filter-th {
+    padding-left: 10px;
+    padding-right: 4px;
+    position: relative;
+}
+
+.exercise-page .header-filter-btn {
+    background: transparent;
+    border: none;
+    color: #ffffff;
+    margin-left: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    padding: 0;
+    line-height: 1;
+    vertical-align: middle;
+    transform: translateY(1px);
+}
+
+.exercise-page .filter-popover {
+    position: absolute;
+    top: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 20;
+    background: #1b1b1b;
+    border: 1px solid #444;
+    padding: 8px;
+    border-radius: 6px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    min-width: 90px;
+}
+
+.exercise-page .filter-value {
+    background: transparent;
+    border: 1px solid #333;
+    color: #fff;
+    padding: 4px 6px;
+    border-radius: 4px;
+    cursor: pointer;
+    text-align: center;
+    margin: 0;
+}
+
+.exercise-page .filter-value.selected {
+    background: rgba(30,144,255,0.12);
+    border-color: #1e90ff;
+}
+
+.exercise-page .filter-actions {
+    display: flex;
+    justify-content: center;
+}
+
+.exercise-page .filter-actions button {
+    background: transparent;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    font-size: 13px;
+    width: auto;
+    margin: 0;
+    padding: 0;
+}
+
+.exercise-page .edit-btn,
+.exercise-page .save-btn,
+.exercise-page .cancel-btn {
+    background: transparent;
+    border: none;
+    color: #ffffff;
+    width: 28px;
+    height: 28px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    cursor: pointer;
+    font-size: 16px;
+    margin-right: 4px;
+    margin-top: 0;
+}
+
+.exercise-page .edit-btn:hover {
+    color: #2ecc71;
+    background: rgba(46,204,113,0.12);
+    border-radius: 50%;
+}
+
+.exercise-page .save-btn:hover {
+    color: #2ecc71;
+}
+
+.exercise-page .cancel-btn:hover {
+    color: #e74c3c;
+}
+
+.exercise-page .cancel-btn {
+    margin-left: 50px;
+}
+
+.exercise-page .action-cell {
+    white-space: nowrap;
+    text-align: center;
+}
+
+.exercise-page .table-input {
+    width: 80px;
+    padding: 4px 6px;
+    border-radius: 4px;
+    border: none;
+    background: #222;
+    color: #fff;
+    height: auto;
+    margin: 0 auto;
+    display: block;
+}
+
+.exercise-page .filter-btn-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.exercise-page #customName {
+    width: 200px;
+}
+
+.exercise-page form button[type="submit"] {
+    width: 100%;
+    max-width: 100%;
+    display: block;
+    margin: 10px auto 0;
 }
