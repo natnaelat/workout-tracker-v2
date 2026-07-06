@@ -6,6 +6,7 @@ import { exercisesRouter } from "./routes/exercises.js";
 import { setsRouter } from "./routes/sets.js";
 import { bodyweightRouter } from "./routes/bodyweight.js";
 import { profileRouter } from "./routes/profile.js";
+import { cardioLogsRouter, cardioLogsPatchRouter } from "./routes/cardioLogs.js";
 
 const app = express();
 app.use(cors());
@@ -23,6 +24,8 @@ app.get("/health", async (_req, res) => {
 
 app.use("/exercises", devAuth, exercisesRouter);
 app.use("/sets", devAuth, setsRouter);
+app.use("/exercises/:exerciseId/cardio", devAuth, cardioLogsRouter);
+app.use("/cardio", devAuth, cardioLogsPatchRouter);
 app.use("/bodyweight", devAuth, bodyweightRouter);
 app.use("/profile", devAuth, profileRouter);
 

@@ -13,6 +13,7 @@ import LogPage from "./pages/LogPage";
 import WeightPage from "./pages/WeightPage";
 import Avatar from "./components/Avatar";
 import ProfilePage from "./pages/ProfilePage";
+import CardioLogPage from "./pages/CardioLogPage";
 
 
 function AppContent() {
@@ -157,6 +158,10 @@ function AppContent() {
         <Route
           path="/log"
           element={isSignedIn ? <LogPage /> : <Navigate to="/" />}
+        />
+        <Route
+          path="/cardio-log"
+          element={isSignedIn ? <CardioLogPage /> : <Navigate to="/" />}
         />
         <Route
           path="/weight"

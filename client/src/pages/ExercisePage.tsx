@@ -188,9 +188,15 @@ const ExercisePage = () => {
 
   const handleRowClick = (exercise: Exercise) => {
     if (editingId) return;
-    navigate(
-      `/log?exerciseId=${exercise.id}&exerciseName=${encodeURIComponent(exercise.name)}&category=${exercise.category}`
-    );
+    if (exercise.category === "cardio") {
+      navigate(
+        `/cardio-log?exerciseId=${exercise.id}&exerciseName=${encodeURIComponent(exercise.name)}`
+      );
+    } else {
+      navigate(
+        `/log?exerciseId=${exercise.id}&exerciseName=${encodeURIComponent(exercise.name)}&category=${exercise.category}`
+      );
+    }
   };
 
   const FILTER_COLUMNS = [

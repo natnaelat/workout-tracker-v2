@@ -1,0 +1,606 @@
+.cardiologpage {
+    font-family: Arial, sans-serif;
+    background-color: #131313;
+    color: #ffffff;
+    text-align: center;
+}
+
+.cardiologpage h1, .cardiologpage h2, .cardiologpage h3 {
+    text-align: center;
+    color: #1e90ff;
+}
+
+.cardiologpage form {
+    display: inline-block;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    background-color: #1e1e1e;
+    padding: 5px 20px 20px 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.cardiologpage .input-group {
+    display: flex;
+    flex-direction: column;
+    margin: 5px;
+}
+
+.cardiologpage .input-group label {
+    margin-bottom: 5px;
+}
+
+.cardiologpage .input-row {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.cardiologpage input[type="number"],
+.cardiologpage input[type="date"] {
+    background-color: #333;
+    color: #ffffff;
+    width: 115px;
+    height: 32px;
+    box-sizing: border-box;
+}
+
+.cardiologpage input[type="date"] {
+    color-scheme: dark;
+}
+
+.cardiologpage form button {
+    background-color: #1e90ff;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 10px;
+}
+
+.cardiologpage form button:hover {
+    background-color: #007acc;
+}
+
+.cardiologpage table {
+    width: 98%;
+    border-collapse: collapse;
+    margin: 20px auto;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.cardiologpage th, .cardiologpage td {
+    padding: 10px;
+    text-align: center;
+    border: 1px solid #555;
+    cursor: pointer;
+}
+
+.cardiologpage th {
+    background-color: #1e90ff;
+    color: #ffffff;
+}
+
+.cardiologpage tbody tr {
+    background-color: #1e1e1e;
+    transition: background-color 0.3s;
+}
+
+.cardiologpage tbody tr:hover {
+    background-color: #007acc;
+}
+
+.cardiologpage .header-filter-btn {
+    background: transparent;
+    border: none;
+    color: #ffffff;
+    margin-left: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    padding: 0;
+    line-height: 1;
+    vertical-align: middle;
+    margin-top: 0;
+}
+
+.cardiologpage .filter-th {
+    padding-left: 10px;
+    padding-right: 4px;
+}
+
+.cardiologpage .filter-popover {
+    position: absolute;
+    top: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 20;
+    background: #1b1b1b;
+    border: 1px solid #444;
+    padding: 8px;
+    border-radius: 6px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    min-width: 90px;
+}
+
+.cardiologpage .filter-popover.weight-popover {
+    left: 55px;
+}
+
+.cardiologpage .filter-value {
+    background: transparent;
+    border: 1px solid #333;
+    color: #fff;
+    padding: 4px 6px;
+    border-radius: 4px;
+    cursor: pointer;
+    text-align: center;
+    margin: 0;
+}
+
+.cardiologpage .filter-value.selected {
+    background: rgba(30,144,255,0.12);
+    border-color: #1e90ff;
+}
+
+.cardiologpage .filter-actions {
+    display: flex;
+    justify-content: center;
+}
+
+.cardiologpage .filter-actions button {
+    background: transparent;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    font-size: 13px;
+    width: auto;
+    margin: 0;
+    padding: 0;
+}
+
+.cardiologpage tbody tr.no-row-hover:hover {
+    background-color: #1e1e1e;
+}
+
+.cardiologpage .delete-btn {
+    background: transparent;
+    border: none;
+    color: #ffffff;
+    width: 28px;
+    height: 28px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    cursor: pointer;
+    font-size: 16px;
+    margin-left: 50px;
+    margin-top: 0;
+}
+
+.cardiologpage .delete-btn:hover {
+    color: #e74c3c;
+    background: rgba(231,76,60,0.12);
+    border-radius: 50%;
+}
+
+.cardiologpage .delete-btn:focus {
+    outline: none;
+}
+
+.cardiologpage .edit-btn,
+.cardiologpage .save-btn,
+.cardiologpage .cancel-btn {
+    background: transparent;
+    border: none;
+    color: #ffffff;
+    width: 28px;
+    height: 28px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    cursor: pointer;
+    font-size: 16px;
+    margin-right: 4px;
+    margin-top: 0;
+}
+
+.cardiologpage .cancel-btn {
+    margin-left: 50px;
+}
+
+.cardiologpage .edit-btn:hover {
+    color: #2ecc71;
+    background: rgba(46,204,113,0.12);
+    border-radius: 50%;
+}
+
+.cardiologpage .save-btn:hover {
+    color: #2ecc71;
+}
+
+.cardiologpage .cancel-btn:hover {
+    color: #e74c3c;
+}
+
+.cardiologpage .table-input {
+    width: 80px;
+    padding: 4px 6px;
+    border-radius: 4px;
+    border: none;
+    background: #222;
+    color: #fff;
+    margin-right: 6px;
+}
+
+.cardiologpage .table-date-input {
+    width: 120px;
+    padding: 4px 6px;
+    border-radius: 4px;
+    border: none;
+    background: #222;
+    color: #fff;
+}
+
+.cardiologpage .action-cell {
+    width: 80px;
+    padding-left: 8px;
+    padding-right: 100px;
+    white-space: nowrap;
+    text-align: right;
+}
+
+.cardiologpage .unit-toggle {
+    display: flex;
+    flex-direction: row;
+    gap: 0;
+    margin: 0;
+    border-radius: 4px;
+    overflow: hidden;
+    border: 1px solid #555;
+}
+
+.cardiologpage .unit-btn {
+    background-color: #3a3a3a;
+    color: #aaa;
+    border: none;
+    cursor: pointer;
+    padding: 4px 10px;
+    font-size: 13px;
+    border-radius: 0;
+    margin: 0;
+}
+
+.cardiologpage .unit-btn + .unit-btn {
+    border-left: 1px solid #555;
+}
+
+.cardiologpage .unit-btn:hover {
+    background-color: #555;
+}
+
+.cardiologpage .unit-btn.active {
+    background-color: #1e90ff;
+    color: #ffffff;
+}
+
+.cardiologpage .date-gap-row td {
+    height: 14px;
+    border: none;
+    padding: 0;
+    vertical-align: middle;
+}
+
+.cardiologpage .date-gap-line {
+    height: 1px;
+    background-color: #1e90ff;
+    width: 98%;
+    margin: 0 auto;
+}
+
+.cardiologpage .weight-input-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 6px;
+}
+
+.cardiologpage .unit-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.cardiologpage .unit-dropdown-trigger {
+    background-color: #333;
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    height: 32px;
+    width: 55px;
+    padding: 0 6px;
+    cursor: pointer;
+    font-size: 13px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.cardiologpage .unit-dropdown-arrow {
+    font-size: 10px;
+    color: #aaa;
+    transition: transform 0.2s ease;
+}
+
+.cardiologpage .unit-dropdown-arrow.open {
+    transform: rotate(180deg);
+}
+
+.cardiologpage .unit-dropdown-menu {
+    position: absolute;
+    top: 42px;
+    left: 0;
+    z-index: 20;
+    background: #1b1b1b;
+    border: 1px solid #444;
+    border-radius: 6px;
+    display: flex;
+    flex-direction: column;
+    min-width: 55px;
+    overflow: hidden;
+}
+
+.cardiologpage .unit-dropdown-option {
+    background: transparent;
+    border: none;
+    color: #fff;
+    padding: 6px 10px;
+    text-align: left;
+    cursor: pointer;
+    font-size: 13px;
+    margin: 0;
+}
+
+.cardiologpage .unit-dropdown-option:hover {
+    background: rgba(30, 144, 255, 0.12);
+}
+
+.cardiologpage .unit-dropdown-option.selected {
+    background: rgba(30, 144, 255, 0.2);
+    font-weight: bold;
+}
+
+.cardiologpage .set-toggle {
+    display: flex;
+    flex-direction: row;
+    gap: 0;
+    border-radius: 4px;
+    overflow: hidden;
+    border: 1px solid #555;
+}
+
+.cardiologpage .set-toggle-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    width: 100%;
+    margin: 10px 0;
+}
+
+.cardiologpage .set-btn {
+    background-color: #3a3a3a;
+    color: #aaa;
+    border: none;
+    cursor: pointer;
+    padding: 4px 10px;
+    font-size: 13px;
+    border-radius: 0;
+    margin: 0;
+}
+
+.cardiologpage .set-btn + .set-btn {
+    border-left: 1px solid #555;
+}
+
+.cardiologpage .set-btn:hover {
+    background-color: #555;
+}
+
+.cardiologpage .set-btn.active {
+    background-color: #1e90ff;
+    color: #ffffff;
+}
+
+.cardiologpage .progress-empty {
+    text-align: center;
+    color: #aaa;
+    padding: 20px;
+}
+
+.cardiologpage .progress-chart-card {
+    background-color: #ffffff;
+    border-radius: 8px;
+    padding: 16px;
+}
+
+.cardiologpage .progress-chart-wrapper {
+    position: relative;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.cardiologpage .strength-info-btn {
+    position: absolute;
+    top: 25%;
+    left: 32px;
+    transform: translateY(-50%) rotate(-90deg);
+    background: transparent;
+    border: none;
+    color: #000000;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 0;
+    margin: 0;
+    width: 20px;
+    height: 20px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    line-height: 1;
+    z-index: 10;
+}
+
+.cardiologpage .strength-info-btn:hover {
+    background: rgba(0, 0, 0, 0.08);
+    color: #000000;
+}
+
+.cardiologpage .strength-info-popover {
+    position: absolute;
+    top: 45%;
+    left: 55px;
+    transform: translateY(-50%);
+    background: #1e1e1e;
+    border: 1px solid #444;
+    border-radius: 8px;
+    padding: 16px;
+    max-width: 280px;
+    z-index: 100;
+    text-align: left;
+    color: #fff;
+    font-size: 13px;
+    line-height: 1.6;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+.cardiologpage .strength-info-formula {
+    background: #2a2a2a;
+    border-radius: 4px;
+    padding: 6px 10px;
+    font-family: monospace;
+    font-size: 12px;
+    color: #1e90ff;
+    margin: 8px 0;
+}
+
+.cardiologpage .strength-info-close {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: transparent;
+    border: none;
+    color: #aaa;
+    font-size: 13px;
+    cursor: pointer;
+    padding: 0;
+    margin: 0;
+    width: 20px;
+    height: 20px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+}
+
+.cardiologpage .strength-info-close:hover {
+    color: #fff;
+}
+
+.cardiologpage .history-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin: 20px 0;
+}
+
+.cardiologpage .history-header h2 {
+    margin: 0;
+}
+
+.cardiologpage .unit-toggle {
+    display: flex;
+    flex-direction: row;
+    gap: 0;
+    margin: 0;
+    border-radius: 4px;
+    overflow: hidden;
+    border: 1px solid #555;
+}
+
+.cardiologpage body {
+    margin: 20px;
+}
+
+.cardiologpage form label,
+.cardiologpage form input,
+.cardiologpage form button {
+    display: block;
+    margin: 10px auto;
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+}
+
+.cardiologpage input[type="text"] {
+    background-color: #333;
+    color: #ffffff;
+}
+
+.cardiologpage button {
+    background-color: #1e90ff;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.cardiologpage button:hover {
+    background-color: #007acc;
+}
+
+.cardiologpage #searchBar {
+    width: 50%;
+    margin: 20px auto;
+    padding: 10px;
+    background-color: #333;
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+}
+
+.cardiologpage .history-header h2 {
+    margin: 0;
+}
+
+.cardiologpage .sex-toggle {
+    flex: 1;
+}
+
+.cardiologpage .filter-btn-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.cardiologpage .duration-inputs {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 4px;
+}
+
+.cardiologpage .duration-sep {
+    color: #aaa;
+    font-size: 14px;
+}
