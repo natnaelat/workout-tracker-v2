@@ -5,6 +5,7 @@ import { fetchSets, createSet, updateSet, deleteSet, type WorkoutSet } from "../
 import UnitDropdown from "../components/UnitDropdown";
 import ProgressChart from "../components/ProgressChart";
 import { formatDisplayDate } from "../utils/progress";
+import PercentileRow from "../components/PercentileRow";
 
 type FilterKey = "weight" | "set_number" | "reps" | "performed_on";
 
@@ -19,10 +20,11 @@ const compareSets = (a: WorkoutSet, b: WorkoutSet) => {
   }
   return a.set_number - b.set_number;
 };
-
+const STRENGTH_PERCENTILE_EXERCISES = ["Squat", "Bench Press", "Deadlift"];
 const LogPage = () => {
   const location = useLocation();
   const params = new URLSearchParams(location.search);
+  const standardExercise = params.get("standardExercise") || "";
   const exerciseId = params.get("exerciseId") || "";
   const exerciseName = params.get("exerciseName") || "None";
 
@@ -31,6 +33,7 @@ const LogPage = () => {
   const [errorMsg, setErrorMsg] = useState("");
   const [displayUnit, setDisplayUnit] = useState<"kg" | "lbs">("lbs");
   const [graphSetNumber, setGraphSetNumber] = useState<number | null>(null);
+  
 
   const [formData, setFormData] = useState({
     weight: "",
@@ -240,6 +243,10 @@ const LogPage = () => {
       </form>
 
       <h2>Workout History</h2>
+
+      {STRENGTH_PERCENTILE_EXERCISES.includes(standardExercise) && (
+        <PercentileRow exerciseId={exerciseId} type="strength" />
+      )}
 
       <div className="set-toggle-wrapper">
         <div className="set-toggle">

@@ -1,10 +1,14 @@
-import { Router } from "express";
+import { Router, type Request, type Response } from "express";
 import { pool } from "../db/pool.js";
+
+interface CardioParams {
+  exerciseId: string;
+}
 
 export const cardioLogsRouter = Router({ mergeParams: true });
 
 // GET /exercises/:exerciseId/cardio
-cardioLogsRouter.get("/", async (req, res) => {
+cardioLogsRouter.get("/", async (req: Request<CardioParams>, res: Response) => {
   try {
     const exerciseCheck = await pool.query(
       "SELECT id FROM exercises WHERE id = $1 AND user_id = $2",
@@ -29,7 +33,7 @@ cardioLogsRouter.get("/", async (req, res) => {
 });
 
 // POST /exercises/:exerciseId/cardio
-cardioLogsRouter.post("/", async (req, res) => {
+cardioLogsRouter.post("/", async (req: Request<CardioParams>, res: Response) => {
   const { distance, distance_unit, duration_secs, date } = req.body;
 
   if (

@@ -21,6 +21,7 @@
     padding-right: 40px;
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    min-width: 750px;
 }
 
 .exercise-page form label,
@@ -101,7 +102,7 @@
 }
 
 .exercise-page tbody tr:hover {
-    background-color: #0f748e;
+    background-color: #007acc;
     opacity: 1;
 }
 

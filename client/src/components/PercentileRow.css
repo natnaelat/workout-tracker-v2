@@ -1,0 +1,23 @@
+.percentile-row {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 16px !important;
+  margin: 12px auto !important;
+  width: 98% !important;
+}
+
+.percentile-text {
+  color: #1e90ff !important;
+  font-size: 14px !important;
+  font-weight: normal !important;
+  display: inline-flex !important;
+  align-items: center !important;
+}
+
+.percentile-toggles {
+  display: flex !important;
+  gap: 8px !important;
+  align-items: center !important;
+}

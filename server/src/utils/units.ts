@@ -10,3 +10,7 @@ export function toKgAndLbs(weight: number, unit: "kg" | "lbs") {
   }
   return { weightKg: round2(weight / KG_TO_LBS), weightLbs: round2(weight) };
 }
+
+export function calculateE1RM(weightKg: number, reps: number): number {
+  return weightKg * (1 + reps / 30);
+}

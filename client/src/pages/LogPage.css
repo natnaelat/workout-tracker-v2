@@ -592,3 +592,26 @@
     position: relative;
     display: inline-block;
 }
+
+.logpage .percentile-text,
+.cardiologpage .percentile-text {
+  color: #1e90ff;
+  font-size: 14px;
+  font-weight: normal;
+  display: inline-flex !important;
+  align-items: center;
+}
+
+.logpage .percentile-text,
+.cardiologpage .percentile-text {
+  color: #1e90ff;
+  font-size: 14px;
+  font-weight: normal;
+}
+
+.logpage .percentile-toggles,
+.cardiologpage .percentile-toggles {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}

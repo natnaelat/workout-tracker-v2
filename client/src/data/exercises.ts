@@ -5,7 +5,7 @@ export const STRENGTH_EXERCISES = [
   "Decline Bench Press",
   "Close Grip Bench Press",
   "Lateral Raise",
-  "Seated Dumbbell Shoulder Press",
+  "Seated Shoulder Press",,
   "Arnold Press",
   "Front Raise",
   "Tricep Pushdown",

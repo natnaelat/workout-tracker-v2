@@ -194,7 +194,7 @@ const ExercisePage = () => {
       );
     } else {
       navigate(
-        `/log?exerciseId=${exercise.id}&exerciseName=${encodeURIComponent(exercise.name)}&category=${exercise.category}`
+        `/log?exerciseId=${exercise.id}&exerciseName=${encodeURIComponent(exercise.name)}&category=${exercise.category}&standardExercise=${encodeURIComponent(exercise.standard_exercise ?? "")}`
       );
     }
   };

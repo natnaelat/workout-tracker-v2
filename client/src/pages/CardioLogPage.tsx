@@ -12,6 +12,7 @@ import {
 } from "../api/cardioLogs";
 import { formatDisplayDate } from "../utils/progress";
 import CardioProgressChart from "../components/CardioProgressChart";
+import PercentileRow from "../components/PercentileRow";
 
 const getTodayStr = () => {
   const d = new Date();
@@ -21,17 +22,19 @@ const getTodayStr = () => {
 const compareLogs = (a: CardioLog, b: CardioLog) =>
   a.performed_on < b.performed_on ? 1 : -1;
 
+const CARDIO_PERCENTILE_EXERCISES = ["Outdoor Running", "Treadmill Running"];
 const CardioLogPage = () => {
   const location = useLocation();
   const params = new URLSearchParams(location.search);
   const exerciseId = params.get("exerciseId") || "";
   const exerciseName = params.get("exerciseName") || "None";
+  const standardExercise = params.get("standardExercise") || "";
 
   const [logs, setLogs] = useState<CardioLog[]>([]);
   const [loading, setLoading] = useState(true);
   const [errorMsg, setErrorMsg] = useState("");
   const [displayUnit, setDisplayUnit] = useState<"mi" | "km">("mi");
-
+  
   const [formData, setFormData] = useState({
     distance: "",
     distance_unit: "mi" as "mi" | "km",
@@ -275,16 +278,20 @@ const CardioLogPage = () => {
       <div className="history-header">
         <h2>Cardio History</h2>
         <div className="unit-toggle">
-          <button
+            <button
             className={displayUnit === "mi" ? "unit-btn active" : "unit-btn"}
             onClick={() => setDisplayUnit("mi")}
-          >mi</button>
-          <button
+            >mi</button>
+            <button
             className={displayUnit === "km" ? "unit-btn active" : "unit-btn"}
             onClick={() => setDisplayUnit("km")}
-          >km</button>
+            >km</button>
         </div>
-      </div>
+        </div>
+
+        {CARDIO_PERCENTILE_EXERCISES.includes(standardExercise) && (
+        <PercentileRow exerciseId={exerciseId} type="cardio" />
+        )}
 
       <CardioProgressChart logs={logs} displayUnit={displayUnit} />
 
