@@ -159,7 +159,7 @@
 
   .navbar__links {
     text-align: center;
-    padding: 2rem;
+    padding: 1rem;
     width: 100%;
     display: table;
   }
@@ -478,3 +478,71 @@ a {
   height: 22px;
 }
 
+@media screen and (max-width: 768px) {
+  /* Main hero section */
+  .main {
+    height: auto;
+    padding: 40px 20px;
+  }
+
+  .main__container {
+    grid-template-columns: 1fr;
+    padding: 0 20px;
+  }
+
+  .main__content {
+    align-items: center;
+    text-align: center;
+  }
+
+  .main__content h1 {
+    font-size: 2rem;
+  }
+
+  .main__content h2 {
+    font-size: 2rem;
+  }
+
+  .main__btn {
+    min-width: auto;
+    width: 100%;
+  }
+
+  /* Show image below button on mobile */
+  .main__img--container {
+    display: block;
+    margin-top: 2rem;
+  }
+
+  #main__img {
+    width: 100%;
+    height: auto;
+  }
+
+  /* Services section */
+  .services h1 {
+    font-size: 1.8rem;
+    text-align: center;
+    padding: 0 20px;
+    margin-bottom: 1.5rem;
+  }
+
+  .services__card {
+    width: 90%;
+    height: 400px;
+    margin: 0.5rem auto;
+  }
+
+  .services h2 {
+    top: 250px;
+    font-size: 1.3rem;
+  }
+
+  .services p {
+    top: 18rem;
+  }
+
+  .get-started-wrapper {
+    margin-top: 21rem;
+  }
+}

@@ -328,3 +328,70 @@
     display: block;
     margin: 10px auto 0;
 }
+
+@media screen and (max-width: 768px) {
+  .exercise-page form {
+    width: 95% !important;
+    min-width: unset !important;
+    padding-left: 16px;
+    padding-right: 16px;
+    box-sizing: border-box;
+  }
+
+  .exercise-page .input-row {
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+  }
+
+  .exercise-page .input-group {
+    width: 100%;
+    margin: 5px 0;
+    align-items: flex-start;
+  }
+
+  .exercise-page .input-group label {
+    text-align: center !important;
+    width: 100% !important;
+    margin: 0 0 6px 0 !important;
+  }
+
+  .exercise-page .input-group input,
+  .exercise-page .input-group select {
+    width: 100% !important;
+    box-sizing: border-box;
+  }
+
+  .exercise-page form button[type="submit"] {
+    width: 100%;
+  }
+
+  .exercise-page #searchBar {
+    width: 90%;
+  }
+
+  .exercise-page table {
+    width: 98%;
+    font-size: 12px;
+  }
+
+  .exercise-page th,
+  .exercise-page td {
+    padding: 6px 4px;
+  }
+
+  .exercise-page .action-cell {
+    white-space: nowrap;
+    text-align: center;
+    padding: 4px;
+  }
+
+  .exercise-page .save-btn + .cancel-btn,
+  .exercise-page .edit-btn + .exercise-delete-btn {
+    margin-left: 4px;
+  }
+
+  .exercise-page .action-cell {
+    width: 50px;
+  }
+}

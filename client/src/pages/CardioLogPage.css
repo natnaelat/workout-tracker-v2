@@ -43,6 +43,7 @@
     width: 115px;
     height: 32px;
     box-sizing: border-box;
+    text-align: center;
 }
 
 .cardiologpage input[type="date"] {
@@ -596,8 +597,30 @@
 .cardiologpage .duration-inputs {
     display: flex;
     flex-direction: row;
+    flex-wrap: nowrap;
     align-items: center;
     gap: 4px;
+    width: 100%;
+}
+
+.cardiologpage .duration-inputs input {
+    width: 45px !important;
+    min-width: 0;
+    flex: 1;
+    text-align: center;
+}
+
+.cardiologpage .duration-sep {
+    flex-shrink: 0;
+}
+
+.cardiologpage .weight-input-row {
+    width: 100%;
+}
+
+.cardiologpage .weight-input-row input {
+    flex: 1;
+    min-width: 0;
 }
 
 .cardiologpage .duration-sep {
@@ -626,4 +649,88 @@
   display: flex;
   gap: 8px;
   align-items: center;
+}
+
+@media screen and (max-width: 768px) {
+  .cardiologpage form {
+    width: 95%;
+    box-sizing: border-box;
+    padding: 5px 12px 16px 12px;
+  }
+
+  .cardiologpage .input-row {
+    flex-wrap: wrap;
+  }
+
+  .cardiologpage .input-group {
+    flex: 1 1 45%;
+    margin: 4px;
+  }
+
+  .cardiologpage input[type="number"],
+  .cardiologpage input[type="date"] {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  /* Percentile row stacks on mobile */
+  .cardiologpage .percentile-row {
+    flex-direction: column;
+    gap: 8px;
+    text-align: center;
+  }
+
+  .cardiologpage .percentile-toggles {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .cardiologpage table {
+    width: 98%;
+    font-size: 12px;
+  }
+
+  .cardiologpage th,
+  .cardiologpage td {
+    padding: 6px 4px;
+  }
+
+  .cardiologpage td {
+    white-space: nowrap;
+  }
+
+  .cardiologpage .action-cell {
+    padding-right: 8px !important;
+    width: 50px;
+    text-align: center;
+  }
+
+  .cardiologpage .delete-btn {
+    margin-left: 4px !important;
+  }
+
+  .cardiologpage .progress-chart-wrapper {
+    width: 95%;
+    margin: 0 auto;
+  }
+
+  .cardiologpage .duration-inputs {
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+
+  .cardiologpage .duration-inputs {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    align-items: center;
+    gap: 6px;
+    width: 100%;
+  }
+
+  .cardiologpage .duration-inputs input[type="number"] {
+    width: auto !important;
+    flex: 1 !important;
+    min-width: 0 !important;
+  }
 }

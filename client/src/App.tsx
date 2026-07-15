@@ -39,6 +39,11 @@ function AppContent() {
     setLastName(null);
   };
 
+  const closeMenu = () => {
+    document.querySelector('.navbar__menu')?.classList.remove('active');
+    document.querySelector('#mobile-menu')?.classList.remove('is-active');
+  };
+
   return (
     <div className="App">
       <nav className="navbar">
@@ -46,24 +51,29 @@ function AppContent() {
           <Link to="/" id="navbar__logo">
             <i className="fas fa-dumbbell"></i> Workout Tracker
           </Link>
-          <div className="navbar__toggle" id="mobile-menu">
+          <div className="navbar__toggle" id="mobile-menu" onClick={(e) => {
+            const menu = document.querySelector('.navbar__menu');
+            const toggle = e.currentTarget;
+            menu?.classList.toggle('active');
+            toggle.classList.toggle('is-active');
+          }}>
             <span className="bar"></span>
             <span className="bar"></span>
             <span className="bar"></span>
           </div>
           <ul className="navbar__menu">
             <li className="navbar__item">
-              <Link to="/" className="navbar__links" id="home-link">
+              <Link to="/" className="navbar__links" id="home-link" onClick={closeMenu}>
                 Home
               </Link>
             </li>
             <li className="navbar__item">
-              <Link to="/exercise" className="navbar__links" id="exercise-link">
+              <Link to="/exercise" className="navbar__links" id="exercise-link" onClick={closeMenu}>
                 Logs
               </Link>
             </li>
             <li className="navbar__item">
-              <Link to="/weight" className="navbar__links" id="weight-link">
+              <Link to="/weight" className="navbar__links" id="weight-link" onClick={closeMenu}>
                 Weight
               </Link>
             </li>
@@ -72,10 +82,10 @@ function AppContent() {
                 <Avatar
                   firstName={firstName}
                   lastName={lastName}
-                  onClick={() => navigate("/profile")}
+                  onClick={() => { navigate("/profile"); closeMenu(); }}
                 />
               ) : (
-                <button className="button" onClick={handleSignIn}>
+                <button className="button" onClick={() => { handleSignIn(); closeMenu(); }}>
                   Sign In
                 </button>
               )}

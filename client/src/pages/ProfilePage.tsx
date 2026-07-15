@@ -74,7 +74,7 @@ const ProfilePage = ({ onSignOut, onProfileUpdate }: ProfilePageProps) => {
     const w = displayUnit === "kg"
       ? profile.latestWeight.weight_kg
       : profile.latestWeight.weight_lbs;
-    return `${w} ${displayUnit} (logged ${formatDisplayDate(profile.latestWeight.logged_on)})`;
+    return `${w} ${displayUnit}`;
   };
 
   const getCmHeight = () => {

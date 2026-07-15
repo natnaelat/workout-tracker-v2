@@ -219,3 +219,10 @@
   text-align: center;
   color: #1e90ff;
 }
+
+@media screen and (max-width: 768px) {
+  .profile-page .name-inputs {
+    flex-direction: column;
+    gap: 24px;
+  }
+}

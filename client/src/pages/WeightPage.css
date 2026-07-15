@@ -54,6 +54,7 @@
     width: 115px;
     height: 32px;
     box-sizing: border-box;
+    text-align: center;
 }
 
 .weightpage input[type="date"] {
@@ -422,4 +423,62 @@
     text-align: center;
     color: #aaa;
     padding: 20px;
+}
+
+@media screen and (max-width: 768px) {
+  .weightpage form {
+    width: 95%;
+    box-sizing: border-box;
+    padding: 5px 12px 16px 12px;
+  }
+
+  .weightpage .input-row {
+    flex-wrap: wrap;
+  }
+
+  .weightpage .input-group {
+    flex: 1 1 45%;
+    margin: 4px;
+  }
+
+  .weightpage input[type="number"],
+  .weightpage input[type="date"] {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .weightpage table {
+    width: 98%;
+    font-size: 12px;
+  }
+
+  .weightpage th,
+  .weightpage td {
+    padding: 6px 4px;
+  }
+
+  .weightpage td {
+    white-space: nowrap;
+  }
+
+  .weightpage .action-cell {
+    padding-right: 8px !important;
+    width: 50px;
+    text-align: center;
+  }
+
+  .weightpage .delete-btn {
+    margin-left: 4px !important;
+  }
+
+  .weightpage .progress-chart-wrapper {
+    width: 95%;
+    margin: 0 auto;
+  }
+
+  .weightpage .history-header {
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+  }
 }
