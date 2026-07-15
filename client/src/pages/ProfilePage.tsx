@@ -2,7 +2,6 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import "./ProfilePage.css";
 import { fetchProfile, updateProfile, type Profile } from "../api/profile";
-import { formatDisplayDate } from "../utils/progress";
 
 interface ProfilePageProps {
   onSignOut: () => void;
