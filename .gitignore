@@ -26,3 +26,4 @@ dist-ssr
 *.csv
 .elasticbeanstalk/
 server/dist/
+.ebextensions/
